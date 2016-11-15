@@ -65,20 +65,6 @@
           }
       },
 
-      computed: {
-          dialogsQuery: {
-              get () {
-                  let values = this.dialogs.map(item => item.id)
-
-                  // Do not show dialogs query when empty
-                  // avoid [].join(',') that leads to dialogs=''
-                  if (values.length) values = values.join(',')
-
-                  return values
-              }
-          }
-      },
-
       components: {
           'cozy-dialog': DialogComponent,
           'cozy-notif': NotifComponent
@@ -142,6 +128,8 @@
               }
           },
 
+          // TODO: handle client errors
+          // to display notifications
           onErrorDialog (err, item) {
               this.notifications.push({
                   type: 'error',
