@@ -8,7 +8,7 @@
                     p header sample
 
                 main
-                    p dialog free content
+                    component(:is="content")
 
                 footer
                   button(@click="error" title='display error') display error
@@ -18,10 +18,15 @@
 
 
 <script>
-    import Vue from 'vue'
+    import ExampleKonnector from './konnectors/example'
+
 
     export default {
         props: ['id', 'header', 'content'],
+
+        components: {
+            'example-konnector': ExampleKonnector
+        },
 
         computed: {
             headerStyles () {

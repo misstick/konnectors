@@ -37,9 +37,6 @@
     import DialogComponent from './components/dialog'
     import NotifComponent from './components/notification'
 
-    // import ExampleKonnector from './components/konnectors/example'
-
-    //
     // Handle use case:
     // when adding real dialogs this declaration
     // will be very obscure and un-readable
@@ -51,7 +48,7 @@
     const Dialogs = [{
         id: 'dialog-1',
         headerImage: 'test0.png',
-        content: 'ExampleKonnector',
+        content: 'example-konnector',
         success: {
             route: { name: 'create-account-success' }
         }
