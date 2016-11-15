@@ -1,46 +1,67 @@
 <template lang="pug">
-  cozy-dialog(v-if="content",
-      :headerStyles="headerStyles",
-      :onClose="onClose",
-      :onSuccess="onSuccess",
-      :onError="onError")
+    div(aria-hidden="false" role="dialog")
+        div(role="separator" @click="close")
+        .wrapper
+            div(role='contentinfo')
+                header(:style="headerStyles")
+                    a(@click="close" title='close') Close
+                    p header sample
+
+                main
+                    p dialog free content
+
+                footer
+                  button(@click="error" title='display error') display error
+                  button(@click="close" title='cancel') cancel
+                  button(@click="success" title='OK') next
 </template>
+
 
 <script>
     import Vue from 'vue'
 
     export default {
-        props: ['item', 'content'],
+        props: ['id', 'header', 'content'],
 
         computed: {
-            content () {
-                Vue.component('cozy-dialog', this.item.content)
-                return !!this.item.content
-            },
             headerStyles () {
-                const src = this.item.headerImage
-                return `background-image: url('${src}');`
+                return `background-image: url('${this.header}');`
             }
         },
 
         methods: {
-            onClose () {
+            close () {
+                const query = Object.assign({}, this.$router.currentRoute.query)
+                const dialogs = query.dialogs.split(',')
+
+                dialogs.splice(dialogs.indexOf(this.id), 1)
+
+                if (!dialogs.length) {
+                    delete query.dialogs
+                } else {
+                    query.dialogs = dialogs.join(',')
+                }
+
+                this.$router.push({ query })
+
                 // Bubbling `close` event
-                this.$emit('close', this.item)
+                this.$emit('close', this.id)
             },
 
-            onError (err) {
+            error (err) {
                 // Bubbling `error` event
-                this.$emit('error', err, this.item)
+                this.$emit('error', err, this.id)
             },
 
-            onSuccess () {
+            success () {
                 // Bubbling `success` event
-                this.$emit('success', this.item)
+                this.$emit('success', this.id)
+                this.close()
             }
         }
     }
 </script>
+
 
 <style lang="stylus">
     @import 'cozy-ui'

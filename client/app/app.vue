@@ -3,8 +3,10 @@
         cozy-notif(v-for="item in notifications",
             :item="item")
 
-        cozy-dialog(v-for="item in dialogs",
-            :item="item",
+        cozy-dialog(v-for="dialog in dialogs",
+            :id="dialog.id",
+            :header="dialog.headerImage",
+            :content="dialog.content",
             @close="onCloseDialog",
             @error="onErrorDialog",
             @success="onSuccessDialog")
@@ -27,8 +29,7 @@
                         svg: use(:xlink:href="require('./assets/sprites/icon-connected.svg')")
                         | {{ 'my_accounts connected title' | t }}
 
-        router-view(v-on:open-dialog='onOpenDialog')
-
+        router-view(@open-dialog="openDialog")
 </template>
 
 
@@ -36,7 +37,7 @@
     import DialogComponent from './components/dialog'
     import NotifComponent from './components/notification'
 
-    import ExampleKonnector from './components/konnectors/example'
+    // import ExampleKonnector from './components/konnectors/example'
 
     //
     // Handle use case:
@@ -50,7 +51,7 @@
     const Dialogs = [{
         id: 'dialog-1',
         headerImage: 'test0.png',
-        content: ExampleKonnector,
+        content: 'ExampleKonnector',
         success: {
             route: { name: 'create-account-success' }
         }
@@ -71,57 +72,40 @@
       },
 
       created () {
-          const to = this.$router.currentRoute
-
-          // Show Dialog when component is created
-          this.dialogs = this.updateDialogs(to.query.dialogs)
+          this.updateDialogs()
       },
 
       watch: {
-          '$route' (to, from) {
-              // Show or hide Dialog when route is updated
-              this.dialogs = this.updateDialogs(to.query.dialogs)
-          },
-
-          dialogs (val, oldVal) {
-              const dialogs = this.dialogsQuery
-
-              // Update RouteQuery from dialogs values
-              const oldQuery = this.$router.currentRoute.query
-              const query = Object.assign({}, oldQuery, { dialogs })
-              this.$router.push({ query })
-          }
+          '$route': 'updateDialogs'
       },
 
       methods: {
-          updateDialogs (dialogs) {
-              if (typeof dialogs === 'string')
+          updateDialogs () {
+              let dialogs = this.$router.currentRoute.query.dialogs
 
-                  // Check if query have a configuration
-                  // if none do not it save into dialogs
-                  return dialogs.split(',').map((id) => {
-                      return Dialogs.find(item => item.id === id)
-                  }).filter(item => !!item)
-
-              return []
+              if (!dialogs) {
+                  this.dialogs = []
+                  return
+              }
+              this.dialogs = dialogs.split(',').map((id) => {
+                  return Dialogs.find(item => item.id === id)
+              })
           },
 
-          onOpenDialog (id) {
-              const dialog = Dialogs.find(item => item.id === id)
-              if (-1 === this.dialogs.indexOf(dialog)) {
-                  this.dialogs.push(dialog)
-              }
+          openDialog (id) {
+              const dialogs = this.$router.currentRoute.query.dialogs || []
+              const query   = Object.assign({}, this.$router.currentRoute.query)
+
+              query.dialogs = dialogs.concat(id).join(',')
+
+              this.$router.push({ query })
           },
 
           onCloseDialog (item) {
-              const index = Dialogs.indexOf(item)
-              this.dialogs = this.dialogs.splice(index, 0)
+
           },
 
           onSuccessDialog (item) {
-              // Close Dialog
-              this.onCloseDialog(item)
-
               // Goto NextComponent
               if (item.success && item.success.route) {
                   this.$router.push(item.success.route)
