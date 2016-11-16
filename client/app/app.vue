@@ -6,10 +6,15 @@
         cozy-dialog(v-for="dialog in dialogs",
             :id="dialog.id",
             :header-styles="dialog.headerStyles",
+            :bus="dialog.bus",
             @close="onCloseDialog",
             @error="onErrorDialog",
             @success="onSuccessDialog")
             component(:is="dialog.content")
+            ul(slot="footer")
+                li: button(@click="dialog.bus.$emit('close')") Cancel
+                li: button(@click="dialog.bus.$emit('success')") Next
+
 
         aside
             h4 {{ 'my_accounts title' | t }}
@@ -34,6 +39,8 @@
 
 
 <script>
+    import Vue from 'vue'
+
     import DialogComponent from './components/dialog'
     import NotifComponent from './components/notification'
 
@@ -56,7 +63,8 @@
         content: ExampleKonnector,
         success: {
             route: { name: 'create-account-success' }
-        }
+        },
+        bus: new Vue()
     }]
 
 

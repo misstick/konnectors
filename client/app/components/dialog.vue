@@ -5,7 +5,7 @@
             a(:href="closeURL" @click="close") Close
             div(role="contentinfo")
                 slot(name="header")
-                    header(:style="headerInlineStyle")
+                    header(:style="headerStyles")
                         p header sample
 
                 main: slot
@@ -19,17 +19,9 @@
 
 <script>
     export default {
-        props: ['id', 'headerStyles'],
+        props: ['id', 'headerStyles', 'bus'],
 
         computed: {
-            headerInlineStyle () {
-                let styles = []
-                for (let prop in  this.headerStyles) {
-                    styles.push(`${prop}:${this.headerStyles[prop]}`)
-                }
-                return styles.join(';')
-            },
-
             closeURL () {
                 let query = []
                 for (let name in this.closeQuery) {
@@ -57,6 +49,11 @@
 
                 return query
             }
+        },
+
+        created () {
+            this.bus.$on('close', this.close)
+            this.bus.$on('success', this.success)
         },
 
         methods: {
