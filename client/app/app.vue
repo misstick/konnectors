@@ -5,11 +5,11 @@
 
         cozy-dialog(v-for="dialog in dialogs",
             :id="dialog.id",
-            :header="dialog.headerImage",
-            :content="dialog.content",
+            :header-styles="dialog.headerStyles",
             @close="onCloseDialog",
             @error="onErrorDialog",
             @success="onSuccessDialog")
+            component(:is="dialog.content")
 
         aside
             h4 {{ 'my_accounts title' | t }}
@@ -37,6 +37,9 @@
     import DialogComponent from './components/dialog'
     import NotifComponent from './components/notification'
 
+    import ExampleKonnector from './components/konnectors/example'
+
+
     // Handle use case:
     // when adding real dialogs this declaration
     // will be very obscure and un-readable
@@ -47,8 +50,10 @@
     //
     const Dialogs = [{
         id: 'dialog-1',
-        headerImage: 'test0.png',
-        content: 'example-konnector',
+        headerStyles: {
+            'background-image': `url(test0.png)`
+        },
+        content: ExampleKonnector,
         success: {
             route: { name: 'create-account-success' }
         }

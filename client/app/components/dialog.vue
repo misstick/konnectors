@@ -2,40 +2,48 @@
     div(aria-hidden="false" role="dialog")
         div(role="separator" @click="close")
         .wrapper
-            div(role='contentinfo')
-                header(:style="headerStyles")
-                    a(@click="close" title='close') Close
-                    p header sample
+            a(:href="closeURL" @click="close") Close
+            div(role="contentinfo")
+                slot(name="header")
+                    header(:style="headerInlineStyle")
+                        p header sample
 
-                main
-                    component(:is="content")
+                main: slot
 
-                footer
-                  button(@click="error" title='display error') display error
-                  button(@click="close" title='cancel') cancel
-                  button(@click="success" title='OK') next
+                footer: slot(name="footer")
+                    button(@click="error") display error
+                    button(@click="close") cancel
+                    button(@click="success") next
 </template>
 
 
 <script>
-    import ExampleKonnector from './konnectors/example'
-
-
     export default {
-        props: ['id', 'header', 'content'],
-
-        components: {
-            'example-konnector': ExampleKonnector
-        },
+        props: ['id', 'headerStyles'],
 
         computed: {
-            headerStyles () {
-                return `background-image: url('${this.header}');`
-            }
-        },
+            headerInlineStyle () {
+                let styles = []
+                for (let prop in  this.headerStyles) {
+                    styles.push(`${prop}:${this.headerStyles[prop]}`)
+                }
+                return styles.join(';')
+            },
 
-        methods: {
-            close () {
+            closeURL () {
+                let query = []
+                for (let name in this.closeQuery) {
+                    query.push(`${name}=${this.closeQuery[name]}`)
+                }
+
+                if (query.length) {
+                    return `${this.$route.path}?${query.join('&')}`
+                } else {
+                    return this.$route.path
+                }
+            },
+
+            closeQuery () {
                 const query = Object.assign({}, this.$router.currentRoute.query)
                 const dialogs = query.dialogs.split(',')
 
@@ -47,6 +55,13 @@
                     query.dialogs = dialogs.join(',')
                 }
 
+                return query
+            }
+        },
+
+        methods: {
+            close () {
+                const query = this.closeQuery
                 this.$router.push({ query })
 
                 // Bubbling `close` event
