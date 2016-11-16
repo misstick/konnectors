@@ -1,46 +1,87 @@
 <template lang="pug">
-  cozy-dialog(v-if="content",
-      :headerStyles="headerStyles",
-      :onClose="onClose",
-      :onSuccess="onSuccess",
-      :onError="onError")
+    div(aria-hidden="false" role="dialog")
+        div(role="separator" @click="close")
+        .wrapper
+            a(:href="closeURL" @click="close") Close
+            div(role="contentinfo")
+                slot(name="header")
+                    header(:style="headerInlineStyle")
+                        p header sample
+
+                main: slot
+
+                footer: slot(name="footer")
+                    button(@click="error") display error
+                    button(@click="close") cancel
+                    button(@click="success") next
 </template>
 
-<script>
-    import Vue from 'vue'
 
+<script>
     export default {
-        props: ['item', 'content'],
+        props: ['id', 'headerStyles'],
 
         computed: {
-            content () {
-                Vue.component('cozy-dialog', this.item.content)
-                return !!this.item.content
+            headerInlineStyle () {
+                let styles = []
+                for (let prop in  this.headerStyles) {
+                    styles.push(`${prop}:${this.headerStyles[prop]}`)
+                }
+                return styles.join(';')
             },
-            headerStyles () {
-                const src = this.item.headerImage
-                return `background-image: url('${src}');`
+
+            closeURL () {
+                let query = []
+                for (let name in this.closeQuery) {
+                    query.push(`${name}=${this.closeQuery[name]}`)
+                }
+
+                if (query.length) {
+                    return `${this.$route.path}?${query.join('&')}`
+                } else {
+                    return this.$route.path
+                }
+            },
+
+            closeQuery () {
+                const query = Object.assign({}, this.$router.currentRoute.query)
+                const dialogs = query.dialogs.split(',')
+
+                dialogs.splice(dialogs.indexOf(this.id), 1)
+
+                if (!dialogs.length) {
+                    delete query.dialogs
+                } else {
+                    query.dialogs = dialogs.join(',')
+                }
+
+                return query
             }
         },
 
         methods: {
-            onClose () {
+            close () {
+                const query = this.closeQuery
+                this.$router.push({ query })
+
                 // Bubbling `close` event
-                this.$emit('close', this.item)
+                this.$emit('close', this.id)
             },
 
-            onError (err) {
+            error (err) {
                 // Bubbling `error` event
-                this.$emit('error', err, this.item)
+                this.$emit('error', err, this.id)
             },
 
-            onSuccess () {
+            success () {
                 // Bubbling `success` event
-                this.$emit('success', this.item)
+                this.$emit('success', this.id)
+                this.close()
             }
         }
     }
 </script>
+
 
 <style lang="stylus">
     @import 'cozy-ui'
