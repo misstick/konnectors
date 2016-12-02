@@ -34,7 +34,7 @@
                         svg: use(:xlink:href="require('./assets/sprites/icon-category.svg')")
                         | {{ 'my_accounts category title' | t }}
 
-                    ul:  menu-item(v-for="item in categories", :item="item")
+                    ul: menu-item(v-for="item in categories", :item="item")
 
 
                 li
@@ -42,7 +42,9 @@
                         svg: use(:xlink:href="require('./assets/sprites/icon-connected.svg')")
                         | {{ 'my_accounts connected title' | t }}
 
-        router-view(v-on:open-dialog='onOpenDialog')
+        router-view(v-on:open-dialog='onOpenDialog',
+            :items="items",
+            :category="category")
 
 </template>
 
@@ -57,11 +59,6 @@
     import Categories from './models/categories'
 
 
-    // TODO: Trier la liste des connecteurs
-    // en fonction de la catégorie sélectionnées
-    // pour pouvoir obtenir le contenu associé
-    //console.log(window.initKonnectors)
-
     export default {
       data () {
           return {
@@ -70,7 +67,8 @@
               config: DialogsConfig,
 
               items: [],
-              categories: []
+              categories: [],
+              category: null
           }
       },
 
@@ -95,10 +93,21 @@
 
       methods: {
           updateMenu (to, from) {
-              if ('categoryList' === to.name)
+              if ('categoryList' === to.name) {
+                  // Update Menu from Route
                   this.categories = Categories
-              else
-                this.categories = []
+
+                  // Update Content from Route
+                  this.items = window.initKonnectors.filter(item => item.category === to.params.id)
+
+                  // Update category
+                  this.category = Categories.find(item => item.id === to.params.id)
+
+              } else {
+                  this.categories = []
+                  this.items = []
+                  this.category = null
+              }
           },
 
           updateDialogs (to, from) {
@@ -235,6 +244,9 @@
 
         ul
             padding: 0.5em 0 0.5em 3em
+
+            &:empty
+                display: none
 
             li>a
                 color: $grey-08
