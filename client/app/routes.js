@@ -3,8 +3,13 @@ import CategoryList from './components/category_list'
 import ConnectedList from './components/connected_list'
 
 export default [{
-  name: 'categoryList',
+  name: 'categoryHome',
   path: '/category',
+  redirect: '/category/all',
+  component: CategoryList
+},{
+  name: 'categoryList',
+  path: '/category/:id',
   component: CategoryList
 },
 {

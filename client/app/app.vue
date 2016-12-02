@@ -28,10 +28,14 @@
                         svg: use(:xlink:href="require('./assets/sprites/icon-discovery.svg')")
                         | {{ 'my_accounts discovery title' | t }}
 
+
                 li
                     router-link(to="/category")
                         svg: use(:xlink:href="require('./assets/sprites/icon-category.svg')")
                         | {{ 'my_accounts category title' | t }}
+
+                    ul:  menu-item(v-for="item in categories", :item="item")
+
 
                 li
                     router-link(to="/connected")
@@ -46,46 +50,58 @@
 <script>
     import DialogComponent from './components/dialog'
     import NotifComponent from './components/notification'
+    import MenuItem from './components/menu_item'
+
     import DialogsConfig from './config/dialog_example'
+
+    import Categories from './models/categories'
+
+
+    // TODO: Trier la liste des connecteurs
+    // en fonction de la catégorie sélectionnées
+    // pour pouvoir obtenir le contenu associé
+    //console.log(window.initKonnectors)
 
     export default {
       data () {
           return {
               dialogs: [],
               notifications: [],
-              config: DialogsConfig
-          }
-      },
+              config: DialogsConfig,
 
-      computed: {
-          dialogsQuery: {
-              get () {
-                  let values = this.dialogs.map(item => item.id)
-
-                  // Do not show dialogs query when empty
-                  // avoid [].join(',') that leads to dialogs=''
-                  if (values.length) values = values.join(',')
-
-                  return values
-              }
+              items: [],
+              categories: []
           }
       },
 
       components: {
           'cozy-dialog': DialogComponent,
-          'cozy-notif': NotifComponent
+          'cozy-notif': NotifComponent,
+          'menu-item': MenuItem
       },
 
       created () {
-          this.updateDialogs(this.$root.$router.currentRoute)
+          const to = this.$root.$router.currentRoute
+          this.updateMenu(to)
+          this.updateDialogs(to)
       },
 
       watch: {
-          '$route': 'updateDialogs'
+          '$route' (to, from) {
+              this.updateMenu(to)
+              this.updateDialogs(to)
+          }
       },
 
       methods: {
-          updateDialogs (to) {
+          updateMenu (to, from) {
+              if ('categoryList' === to.name)
+                  this.categories = Categories
+              else
+                this.categories = []
+          },
+
+          updateDialogs (to, from) {
               const dialogs = to.query.dialogs
 
               if (typeof dialogs === 'string')
@@ -185,9 +201,9 @@
     [role="navigation"]
         li
             display: flex
-            flex-direction: row
+            flex-direction: column
 
-        a
+        >li>a
             text-decoration: none
             color: $red
             flex: 1
@@ -203,6 +219,9 @@
 
             svg
                 fill: white
+
+            ul
+                display: block
 
         svg
             width: 1.5em
