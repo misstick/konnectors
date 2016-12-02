@@ -7,24 +7,24 @@ export default [{
   label: 'Toutes',
 }, {
   id: 'insurance',
-  label: 'assurances',
+  label: 'Assurances',
 }, {
   id: 'communication',
-  label: 'communication',
+  label: 'Communication',
 }, {
   id: 'energy',
-  label: 'énergie',
+  label: 'Énergie',
 }, {
   id: 'productivity',
-  label: 'productivité',
+  label: 'Productivité',
 }, {
   id: 'health',
-  label: 'santé',
+  label: 'Santé',
   route: '/category/health'
 }, {
   id: 'tripAndTransportation',
-  label: 'voyages et transports',
+  label: 'Voyages & transports',
 }, {
   id: 'everydayLife',
-  label: 'vie quotidienne',
+  label: 'Vie quotidienne',
 }]

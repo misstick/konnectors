@@ -188,6 +188,7 @@
 
 
     aside
+        width: 13.75em
         background-color: $grey-01
         box-shadow: inset -1px 0 0 0 $grey-01-alpha
 
@@ -203,31 +204,48 @@
             display: flex
             flex-direction: column
 
-        >li>a
+        a
             text-decoration: none
-            color: $red
             flex: 1
-            padding: 1em 1.5em
-            margin: 0.25em 0
 
             &:hover:not(.router-link-active)
                 background-color: $grey-01-alpha
 
-        .router-link-active
-            background-color: $red
-            color: white
+
+        >li>a
+            padding: 1em 1.5em
+            margin: 0.25em 0
+            color: $red
+
 
             svg
-                fill: white
+                width: 1.5em
+                height: 1.5em
+                margin-right: 0.5em
+                display: inline-block
+                vertical-align: middle
+                fill: #F92B3F
 
-            ul
-                display: block
+            &.router-link-active
+                background-color: $red
+                color: white
 
-        svg
-            width: 1.5em
-            height: 1.5em
-            margin-right: 0.5em
-            display: inline-block
-            vertical-align: middle
-            fill: #F92B3F
+                svg
+                    fill: white
+
+        ul
+            padding: 0.5em 0 0.5em 3em
+
+            li>a
+                color: $grey-08
+                line-height: 2
+                border-radius: 0.25em 0 0 0.25em
+                padding-left: 0.5em
+
+                &.router-link-active
+                    background-color: $grey-08
+                    color: white
+
+
+
 </style>
