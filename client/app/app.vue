@@ -202,8 +202,7 @@
             color: white
 
             svg
-                path
-                    fill: white
+                fill: white
 
         svg
             width: 1.5em
@@ -211,4 +210,5 @@
             margin-right: 0.5em
             display: inline-block
             vertical-align: middle
+            fill: #F92B3F
 </style>
