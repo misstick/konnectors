@@ -98,7 +98,12 @@
                   this.categories = Categories
 
                   // Update Content from Route
-                  this.items = window.initKonnectors.filter(item => item.category === to.params.id)
+                  // get all Konnectors for 'all' categories
+                  if ('all' !== to.params.id)
+                    this.items = window.initKonnectors.filter(item => item.category === to.params.id)
+                  else
+                    this.items = window.initKonnectors
+
 
                   // Update category
                   this.category = Categories.find(item => item.id === to.params.id)
