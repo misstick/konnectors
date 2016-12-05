@@ -1,30 +1,35 @@
 'use strict'
 
 // TODO: use translation here
-// ie. t(`insurance label`)
+// ie. t(`category telecom`)
 export default [{
   id: 'all',
-  label: 'Toutes',
-}, {
-  id: 'insurance',
-  label: 'Assurances',
-}, {
-  id: 'communication',
-  label: 'Communication',
-}, {
+  label: 'All'
+},{
+  id: 'telecom',
+  label: 'Telecom'
+},{
+  id: 'isp',
+  label: 'ISP'
+},{
   id: 'energy',
-  label: 'Énergie',
+  label: 'Énergie'
+},{
+  id: 'host_provider',
+  label: 'Host'
 }, {
   id: 'productivity',
-  label: 'Productivité',
+  label: 'Productivity'
 }, {
   id: 'health',
-  label: 'Santé',
-  route: 'health'
+  label: 'Health'
 }, {
   id: 'transport',
-  label: 'Voyages & transports',
+  label: 'Transportation'
 }, {
   id: 'social',
-  label: 'Vie quotidienne',
+  label: 'Social'
+}, {
+  id: 'others',
+  label: 'Others'
 }]
