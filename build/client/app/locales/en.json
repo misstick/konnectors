@@ -40,6 +40,7 @@
   "remove last account": "Remove last account",
   "vendorLink": "Website from which the data are imported: ",
   "loginUrl": "Login URL",
+  "category all": "All",
   "category telecom": "Telecom",
   "category isp": "ISP",
   "category energy": "Energy",
