@@ -35,7 +35,7 @@ describe('Dialogs', () => {
     function createApp (mocks) {
       const AppInjector = require('!!vue?inject!../app/app')
       const AppWithMocks = AppInjector({
-        './config/dialog_example': dialogsConfig
+        './models/dialog_example': dialogsConfig
       })
 
       vm = new Vue({

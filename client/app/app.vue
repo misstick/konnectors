@@ -54,8 +54,7 @@
     import NotifComponent from './components/notification'
     import MenuItem from './components/menu_item'
 
-    import DialogsConfig from './config/dialog_example'
-
+    import Dialogs from './models/dialog_example'
     import Categories from './models/categories'
 
 
@@ -64,7 +63,7 @@
           return {
               dialogs: [],
               notifications: [],
-              config: DialogsConfig,
+              config: Dialogs,
 
               items: [],
               categories: [],
