@@ -1,28 +1,30 @@
-
-'use strict';
+'use strict'
 
 import Vue from 'vue'
-import ExampleKonnector from '../components/konnectors/example'
 
-// TODO: récipérer tous les connecteurs
-// et mettre en forme les data ici
-export default [{
-  id: 'dialog-1',
 
-  title: "dialog title",
+export default window.initKonnectors.map((konnector) => {
+  return {
+    id: konnector.slug,
 
-  headerStyles: {
-      'background-image': `url(header.png)`,
-      'height': '100px'
-  },
+    // TODO: use Transfex such as:
+    // t(`${konnector.slug}`)
+    title: konnector.name,
 
-  component: ExampleKonnector,
+    // TODO: generate backgrounds images
+    // form mockups
+    headerStyles: {
+        'background-image': `url(../assets/background/${konnector.slug}).png`,
+        'height': '100px'
+    },
 
-  routes: {
-      success: { name: 'create-account-success' }
-  },
+    component: require(`../components/konnectors/${konnector.slug}`),
 
-  // Handle Events emitted
-  // from dialogsVue to appVue
-  hub: new Vue()
-}]
+    // TODO: define success if needed
+    // routes: {
+    //     success: { name: 'create-account-success' }
+    // },
+
+    hub: new Vue()
+  }
+})
