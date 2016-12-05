@@ -8,6 +8,7 @@
                         | Close
 
                     slot(name="header")
+                        svg: use(:xlink:href="iconPath")
 
                 main: slot
 
@@ -58,6 +59,10 @@
                 }
 
                 return query
+            },
+
+            iconPath () {
+                return require(`../assets/sprites/${this.id}.svg`)
             }
         },
 
@@ -100,4 +105,22 @@
         [role=contentinfo]
             overflow initial
             flex-direction column
+
+            header
+                border-radius: 0.52083em 0.52083em 0 0
+                margin: -1px -1px 2px
+                height: 7.5em
+
+                display: flex
+                align-items: center
+                text-align: center
+
+                [role='close']
+                    position: absolute
+                    right: 3em
+                    color: white
+
+                svg
+                    margin: 0 auto
+                    max-height: 4em
 </style>

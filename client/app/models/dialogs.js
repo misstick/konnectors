@@ -10,8 +10,8 @@ export default window.initKonnectors.map((konnector) => {
     // TODO: generate backgrounds images
     // form mockups
     headerStyles: {
-        'background-image': "url('/background/ameli.jpeg')",
-        'height': '100px'
+        //'background-image': `url('/img/${konnector.slug}.jpg')`,
+        'background': konnector.color.css
     },
 
     component: require(`../components/konnectors/${konnector.slug}.vue`),

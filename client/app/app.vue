@@ -11,14 +11,7 @@
             @error="onErrorDialog",
             @success="onSuccessDialog")
 
-            h3(slot="header") {{ `title ${dialog.id}` | t }}
-
             component(:is="dialog.component")
-
-            ul(slot="footer")
-                li: button(@click="dialog.hub.$emit('error', 'this is a notification error')") Error
-                li: button(@click="dialog.hub.$emit('close')") Cancel
-                li: button(@click="dialog.hub.$emit('success')") Next
 
         aside
             h4 {{ 'my_accounts title' | t }}
