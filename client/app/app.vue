@@ -54,7 +54,7 @@
     import NotifComponent from './components/notification'
     import MenuItem from './components/menu_item'
 
-    import Dialogs from './models/dialog_example'
+    import Dialogs from './models/dialogs'
     import Categories from './models/categories'
 
 

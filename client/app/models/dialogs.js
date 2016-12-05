@@ -14,7 +14,7 @@ export default window.initKonnectors.map((konnector) => {
     // TODO: generate backgrounds images
     // form mockups
     headerStyles: {
-        'background-image': `url(../assets/background/${konnector.slug}).png`,
+        'background-image': "url('/background/ameli.jpeg')",
         'height': '100px'
     },
 
