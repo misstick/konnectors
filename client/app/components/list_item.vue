@@ -5,13 +5,13 @@
             svg: use(:xlink:href="iconPath")
 
         h3 {{ item.name }}
-        small {{ category.label }}
+        small {{ category }}
 
 </template>
 
 <script>
     export default {
-      props: ['item', 'category'],
+      props: ['item', 'categories'],
 
       methods: {
           openDialog () {
@@ -26,6 +26,12 @@
 
           iconPath () {
               return require(`../assets/sprites/${this.item.slug}.svg`)
+          },
+
+          category () {
+              const value = this.categories.find(item => item.id === this.item.category) || {}
+
+              return value.label
           }
       }
     }

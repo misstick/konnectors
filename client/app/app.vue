@@ -44,7 +44,7 @@
 
         router-view(v-on:open-dialog='onOpenDialog',
             :items="items",
-            :category="category")
+            :categories="categories")
 
 </template>
 
@@ -104,14 +104,9 @@
                   else
                     this.items = window.initKonnectors
 
-
-                  // Update category
-                  this.category = Categories.find(item => item.id === to.params.id)
-
               } else {
                   this.categories = []
                   this.items = []
-                  this.category = null
               }
           },
 

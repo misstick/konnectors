@@ -6,14 +6,14 @@
 
         ul(class="list-item"): list-item(v-for="item in items",
           :item="item",
-          :category="category")
+          :categories="categories")
 </template>
 
 <script>
     import ListItem from './list_item'
 
     export default {
-      props: ['items', 'category'],
+      props: ['items', 'categories'],
 
       components: {
           'list-item': ListItem
