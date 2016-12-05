@@ -11,7 +11,7 @@
             @error="onErrorDialog",
             @success="onSuccessDialog")
 
-            h3(slot="header") {{ dialog.title }}
+            h3(slot="header") {{ `title ${dialog.id}` | t }}
 
             component(:is="dialog.component")
 
@@ -34,7 +34,7 @@
                         svg: use(:xlink:href="require('./assets/sprites/icon-category.svg')")
                         | {{ 'my_accounts category title' | t }}
 
-                    ul: menu-item(v-for="item in categories", :item="item")
+                    ul: menu-item(v-for="id in categories", :id="id")
 
 
                 li

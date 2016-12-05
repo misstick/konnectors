@@ -7,10 +7,6 @@ export default window.initKonnectors.map((konnector) => {
   return {
     id: konnector.slug,
 
-    // TODO: use Transfex such as:
-    // t(`${konnector.slug}`)
-    title: konnector.name,
-
     // TODO: generate backgrounds images
     // form mockups
     headerStyles: {

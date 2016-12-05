@@ -5,7 +5,7 @@
             svg: use(:xlink:href="iconPath")
 
         h3 {{ item.name }}
-        small {{ category }}
+        small {{ `category ${category}` | t }}
 
 </template>
 
@@ -29,9 +29,7 @@
           },
 
           category () {
-              const value = this.categories.find(item => item.id === this.item.category) || {}
-
-              return value.label
+              return this.categories.find(item => item === this.item.category)
           }
       }
     }

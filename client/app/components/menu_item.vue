@@ -1,9 +1,9 @@
 <template lang="pug">
-    li: router-link(:to="{ name: 'categoryList', params: { id: item.id } }") {{ item.label }}
+    li: router-link(:to="{ name: 'categoryList', params: { id } }") {{ `category ${id}` | t }}
 </template>
 
 <script>
     export default {
-        props: ['item']
+        props: ['id']
     }
 </script>
