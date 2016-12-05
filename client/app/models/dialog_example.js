@@ -18,7 +18,7 @@ export default window.initKonnectors.map((konnector) => {
         'height': '100px'
     },
 
-    component: require(`../components/konnectors/${konnector.slug}`),
+    component: require(`../components/konnectors/${konnector.slug}.vue`),
 
     // TODO: define success if needed
     // routes: {
