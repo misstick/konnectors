@@ -20,11 +20,11 @@ export default [{
 }, {
   id: 'health',
   label: 'Santé',
-  route: '/category/health'
+  route: 'health'
 }, {
-  id: 'tripAndTransportation',
+  id: 'transport',
   label: 'Voyages & transports',
 }, {
-  id: 'everydayLife',
+  id: 'social',
   label: 'Vie quotidienne',
 }]

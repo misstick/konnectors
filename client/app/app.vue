@@ -123,9 +123,15 @@
                   this.dialogs = []
           },
 
-          onOpenDialog (id) {
-              let dialogs = this.$root.$router.currentRoute.query.dialogs || null
-              const query   = Object.assign({}, this.$root.$router.currentRoute.query)
+          onOpenDialog (data={}) {
+              const id = data.slug
+
+              // Override queryDialogs
+              let query = this.$root.$router.currentRoute.query
+              delete query.dialogs
+
+              let dialogs = query.dialogs || null
+              query = Object.assign({}, query)
 
               if (dialogs) {
                   dialogs = dialogs.split(',')

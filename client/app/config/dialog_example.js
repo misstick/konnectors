@@ -4,7 +4,8 @@
 import Vue from 'vue'
 import ExampleKonnector from '../components/konnectors/example'
 
-
+// TODO: récipérer tous les connecteurs
+// et mettre en forme les data ici
 export default [{
   id: 'dialog-1',
 
