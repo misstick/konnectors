@@ -7,20 +7,18 @@
                     a(:href="closeURL" @click="close" role="close")
                         svg: use(:xlink:href="require('../assets/sprites/icon-close-32.svg')")
 
-                    slot(name="header")
-                        svg: use(:xlink:href="iconPath")
+                    slot(name="header"): svg: use(:xlink:href="iconPath")
 
-                main: slot
+                main: slot(:item="item")
 
-                footer
-                    slot(name="footer")
+                footer: slot(name="footer")
 </template>
 
 <script>
     import Vue from 'vue'
 
     export default {
-        props: ['id', 'headerStyles', 'hub'],
+        props: ['id', 'headerStyles', 'hub', 'item'],
 
         created () {
             this.hub.$on('close', this.close)

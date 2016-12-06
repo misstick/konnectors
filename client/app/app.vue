@@ -7,6 +7,7 @@
             :id="dialog.id",
             :headerStyles="dialog.headerStyles",
             :hub="dialog.hub",
+            :item="dialog.model"
             @close="onCloseDialog",
             @error="onErrorDialog",
             @success="onSuccessDialog")
