@@ -5,7 +5,7 @@
             div(role="contentinfo")
                 header(:style="headerStyles")
                     a(:href="closeURL" @click="close" role="close")
-                        | Close
+                        svg: use(:xlink:href="require('../assets/sprites/icon-close-32.svg')")
 
                     slot(name="header")
                         svg: use(:xlink:href="iconPath")
@@ -115,12 +115,21 @@
                 align-items: center
                 text-align: center
 
-                [role='close']
-                    position: absolute
-                    right: 3em
-                    color: white
 
                 svg
                     margin: 0 auto
                     max-height: 4em
+
+
+                [role='close']
+                    position: absolute
+                    color: white
+                    right: 3em
+
+                    svg
+                        color: red
+                        width: 2em
+                        height: 2em
+
+
 </style>
