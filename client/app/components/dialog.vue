@@ -9,7 +9,7 @@
 
                     slot(name="header"): svg: use(:xlink:href="iconPath")
 
-                main: slot(:item="item")
+                slot(:item="item")
 
                 footer: slot(name="footer")
 </template>
@@ -87,7 +87,10 @@
 </script>
 
 <style lang="stylus">
+    @import '../styles/base/_colors'
+
     @import 'cozy-ui'
+
     [role=dialog]
         @extend $dialog
 
@@ -128,6 +131,59 @@
                         color: red
                         width: 2em
                         height: 2em
+
+        main
+            [role='description']
+                width: 50%
+                padding-right: 2em
+
+
+            .field
+                margin: 0 0 2em
+
+            form
+                p
+                    width: 24em
+
+                input
+                select
+                button
+                    width: 17.5em
+                    background: $grey-01
+                    border-radius: 2px
+                    border: solid 1px $grey-03
+                    color: $grey-04
+
+                    padding: 0.7em 1em
+
+                h3
+                p
+                input
+                select
+                label
+                    margin: 0 0 0.5em
+                    color: $grey-08
+
+                label
+                    display: inline-block
+
+                .inline-button
+                    padding: 0
+                    background: none
+                    border: none
+                    text-align: left
+                    font-size: 0.9em
+
+                    &:hover
+                        color: $blue
+
+                button
+                    text-transform: uppercase
+
+                    &.danger
+                        color: $red
+                        background-color: $red-alpha
+                        border: solid 1px $red-alpha
 
 
 </style>

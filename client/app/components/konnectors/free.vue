@@ -1,5 +1,5 @@
 <template lang="pug">
 
-    p example main content
+    main: p example main content
 
 </template>

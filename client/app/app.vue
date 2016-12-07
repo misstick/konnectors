@@ -189,6 +189,7 @@
 
         main
             padding: 2.5em 3em
+            flex-direction: row
 
         h1
             font-size: 2em
