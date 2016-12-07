@@ -132,16 +132,30 @@
                         width: 2em
                         height: 2em
 
-        main
-            [role='description']
-                width: 50%
-                padding-right: 2em
-
+        form
+            display flex
+            flex-flow row wrap
 
             .field
                 margin: 0 0 2em
 
-            form
+            fieldset
+                border: 0
+                flex 1 0px
+
+                &[role="column1"]
+                    flex 1 0px
+
+                &[role="column2"]
+                    flex 2 0px
+
+                &[role="footer"]
+                    flex 1 100%
+                    border-top solid 1px $grey-01-alpha
+                    text-align center
+                    margin 0 -3em -2.5em
+
+
                 p
                     width: 24em
 
@@ -178,12 +192,17 @@
                         color: $blue
 
                 button
-                    text-transform: uppercase
+                    text-transform uppercase
+                    margin 0.5em 0.5em 0.5em 0
+
+                    &.submit
+                        color white
+                        background-color: $blue
 
                     &.danger
                         color: $red
-                        background-color: $red-alpha
-                        border: solid 1px $red-alpha
+                        background-color $red-alpha
+                        border solid 1px $red-alpha
 
 
 </style>

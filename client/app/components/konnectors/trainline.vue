@@ -1,11 +1,12 @@
 <template lang="pug">
     main
-        article(role='description')
+      form
+        fieldset(role="column1")
             div(class='vendorLink')
             div(class='description') {{ item.description | t }}
 
 
-        form(role='import')
+        fieldset(role="column2")
           .field
               h3 Activité
 
@@ -55,6 +56,12 @@
 
               button(class='danger' id='delete-button')
                 | {{ 'konnector delete credentials' | t }}
+
+
+        fieldset(role='footer')
+            button(id='reset-button') Annuler
+            button(id='save-button', class="submit") Sauvegarder
+
 
 </template>
 
