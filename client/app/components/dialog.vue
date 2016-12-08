@@ -155,42 +155,64 @@
                     text-align center
                     margin 0 -3em -2.5em
 
-
                 p
-                    width: 24em
+                label
+                    margin: 0 0 0.5em
 
                 input
                 select
                 button
-                    width: 17.5em
+                strong
                     background: $grey-01
                     border-radius: 2px
-                    border: solid 1px $grey-03
-                    color: $grey-04
+                    padding: 0.5em 1em
+                    color: $grey-08
+                    margin: 0 0 0.5em
 
-                    padding: 0.7em 1em
+                input
+                select
+                button
+                    border: solid 1px $grey-03
+                    width: 17.5em
+
+                strong
+                    width: 9em
+                    display: block
+                    margin-top: 0.5em
+
+                    &:empty
+                        display: none
 
                 h3
                 p
                 input
                 select
                 label
-                    margin: 0 0 0.5em
+                strong
                     color: $grey-08
 
-                label
-                    display: inline-block
+                h3
+                    margin: 0 0 0.5em
 
-                .inline-button
-                    padding: 0
+                label
+                    display: block
+
+                .small-button
                     background: none
                     border: none
+
                     text-align: left
                     font-size: 0.9em
+                    color: $grey-04
+
+                    height: 2em
+                    padding: 0
+                    margin: 0
 
                     &:hover
                         color: $blue
 
+                .button
                 button
                     text-transform uppercase
                     margin 0.5em 0.5em 0.5em 0

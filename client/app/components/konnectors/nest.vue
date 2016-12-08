@@ -7,16 +7,6 @@
 
 
         form(role='import')
-
-            h3 Activité
-            p Dernière synchronisation : en cours...
-            button synchroniser maintenant
-
-            h3 Emplacement
-            p Vous trouverez vos fichiers ...
-            select
-            button Ouvrir le dossier dans files
-
             div(class='fields')
 
             div(class='add-buttons')
