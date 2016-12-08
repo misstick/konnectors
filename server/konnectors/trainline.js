@@ -30,6 +30,10 @@ module.exports = baseKonnector.createNew({
     css: '#48D5B5',
   },
 
+  notifications: {
+    'account.add.success': 'Bienvenue chez Trainline!',
+  },
+
   fields: {
     login: 'email',
     password: 'password',

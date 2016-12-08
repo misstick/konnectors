@@ -75,9 +75,10 @@
 
 <script>
 
+    const _ = require('lodash')
+
     // TODO: faire fonctionner le connecteur
     // TODO: masquer les champs (nouveaux fonctionnement)
-    // TODO: bouger l'erreur dans la notification
 
     export default {
         data () {
@@ -102,6 +103,10 @@
         computed: {
           id () {
               return `konnector-${this.$parent.item.slug}`
+          },
+
+          slug () {
+              return this.$parent.item.slug
           },
 
           description () {
@@ -181,6 +186,7 @@
                 const plop = this.fields.map((field) => {
                   const el = document.getElementById(field.name)
                   let value
+                  let err
 
                   switch (field.type) {
                       case 'label':
@@ -199,10 +205,12 @@
                           value = el.value
                           break
                   }
-
-                  if (value && !value.length) value = null
+                  if (!value || !value.length) {
+                      value = null
+                      err = ['empty', field.name]
+                  }
                   if (result === undefined) result = []
-                  result.push([field.name, value])
+                  result.push([field.name, value, err])
                 })
 
                 return result || null
@@ -212,14 +220,46 @@
                 // Save Account
                 // and update VueData
                 const values = this.getFieldValues()
-
-                // TODO : handle ErrorNotif when no login/password found
-                // TODO: handle SuccessNotif when save succeed
-                if (values) {
-                  const result = {}
-                  values.forEach(data => result[data[0]] = data[1])
-                  this.account = result
+                const emit = (...args) => {
+                    this.$parent.hub.$emit.call(this.$parent, ...args)
                 }
+
+                const result = {}
+                const errors = []
+                values.forEach((data) => {
+                    if (!data[2])
+                      result[data[0]] = data[1]
+                    else
+                      errors.push(data[2])
+                })
+
+                // Update account if no errors
+                // and display success notification
+                if (!errors.length) {
+                    this.account = result
+
+                    emit('success', this.slug, {
+                        event: 'account.add.success',
+                        account: this.account
+                    })
+                }
+
+                // otherwise emit event
+                // to display errors notification
+                else {
+                    const result = {}
+                    const prefix = 'account.add.error'
+                    _.transform(errors, (result, err) => {
+                        const type = `${prefix}.${err[0]}`
+                        const value = err[1]
+
+                        if (!result[type]) result[type] = []
+                        if (-1 === result[type].indexOf(value)) result[type].push(value)
+                    }, result)
+
+                    emit('error', this.slug, result)
+                }
+
             }
         }
     }

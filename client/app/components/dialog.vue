@@ -9,7 +9,7 @@
 
                     slot(name="header"): svg: use(:xlink:href="iconPath")
 
-                slot(:item="item")
+                slot
 
                 footer: slot(name="footer")
 </template>
@@ -91,6 +91,7 @@
 
     @import 'cozy-ui'
 
+
     [role=dialog]
         @extend $dialog
 
@@ -128,7 +129,6 @@
                     right: 3em
 
                     svg
-                        color: red
                         width: 2em
                         height: 2em
 

@@ -23,7 +23,12 @@ export default [{
   component: ConnectedList
 },
 {
+  name: 'create-account-success',
+  path: '/',
+  query: { 'success': 'account-was-successfully-created' }
+},
+{
   name: 'default',
   path: '/',
-  redirect: '/discovery'
+  redirect: '/category'
 }]

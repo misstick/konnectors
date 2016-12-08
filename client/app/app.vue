@@ -51,6 +51,8 @@
     import Dialogs from './models/dialogs'
     import Categories from './models/categories'
 
+    const NOTIFICATIONS_CLOSE_DELAY = 3000
+
 
     export default {
       data () {
@@ -103,6 +105,10 @@
               }
           },
 
+          getDialog (id) {
+              return this.config.find(item => item.id === id) || {}
+          },
+
           updateDialogs (to, from) {
               const dialogs = to.query.dialogs
 
@@ -137,33 +143,71 @@
               this.$root.$router.push({ query })
           },
 
+
           onCloseDialog (id) {
               // Close Notifications
               // related to this item
               this.onCloseNotif(id)
           },
 
-          onSuccessDialog (id) {
+
+          getNotificationMessage (id, keys=[], params=[]) {
+              const notifs = this.getDialog(id).notifications
+
+              return keys.map((key, index) => {
+                  const values = (params[index] || []).join(', ')
+                  return notifs[key].replace('${values}', values)
+              }).join(' \n')
+          },
+
+
+          onSuccessDialog (id, model) {
               // Close Dialog
               this.onCloseDialog(id)
 
+              // Display Success Notif
+              const data = Object.assign({}, model, {
+                  msg: this.getNotificationMessage(id, [model.event])
+              })
+              this.onOpenNotif('success', id, data)
+
               // Goto NextComponent
-              const dialog = this.config.find(item => item.id === id)
-              if (dialog && dialog.routes.success) {
+              const dialog = this.getDialog(id)
+              if (dialog.routes && dialog.routes.success) {
                   this.$root.$router.push(dialog.routes.success)
               }
           },
 
-          onErrorDialog (err, id) {
-              this.onOpenNotif(err, id)
+
+          onErrorDialog (id, err) {
+              const keys = _.keys(err)
+              const params = _.values(err)
+
+              this.onOpenNotif('error', id, {
+                  type: keys[0],
+                  msg: this.getNotificationMessage(id, keys, params),
+                  err: err
+              })
           },
 
-          onOpenNotif (msg, id) {
-              this.notifications.push({
-                  type: 'error',
-                  label: msg,
-                  dialog: id
-              })
+
+          onOpenNotif (type, id, params) {
+              const notif = {
+                  dialog: id,
+                  type: type,
+                  params: params
+              }
+
+              this.notifications.push(notif)
+
+              // Auto-close notifications
+              // after n times displayed
+              if ("error" !== type) {
+                  setTimeout(() => {
+                      const index = this.notifications.indexOf(notif)
+                      if (-1 !== index) this.notifications.splice(index, 1)
+                  }, NOTIFICATIONS_CLOSE_DELAY)
+              }
           },
 
           onCloseNotif (id) {
