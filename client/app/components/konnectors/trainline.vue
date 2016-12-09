@@ -20,10 +20,10 @@
           .field
               h3 Activité
 
-              p Dernière synchronisation:&nbsp;
-                  span en cours...
+              p(v-if="lastImport")
+                  | Dernière synchronisation: {{ lastImport }}
 
-              button(class="small-button")
+              button(class="small-button", v-if="!isImporting")
                   | synchroniser maintenant
 
 
@@ -127,6 +127,15 @@
               return this.$parent.item.description
           },
 
+
+          isImporting () {
+              return this.$parent.item.isImporting
+          },
+
+
+          lastImport () {
+              return this.$parent.item.lastImport
+          },
 
           fields () {
               const result = []
