@@ -109,38 +109,38 @@
             flex-direction column
 
             header
-                border-radius: 0.52083em 0.52083em 0 0
-                margin: -1px -1px 2px
-                height: 7.5em
+                border-radius 0.52083em 0.52083em 0 0
+                margin -1px -1px 2px
+                height 7.5em
 
-                display: flex
-                align-items: center
-                text-align: center
+                display flex
+                align-items center
+                text-align center
 
 
                 svg
-                    margin: 0 auto
-                    max-height: 4em
+                    margin 0 auto
+                    max-height 4em
 
 
                 [role='close']
-                    position: absolute
-                    color: white
-                    right: 3em
+                    position absolute
+                    color white
+                    right 3em
 
                     svg
-                        width: 2em
-                        height: 2em
+                        width 2em
+                        height 2em
 
         form
             display flex
             flex-flow row wrap
 
             .field
-                margin: 0 0 2em
+                margin 0 0 2em
 
             fieldset
-                border: 0
+                border 0
                 flex 1 0px
 
                 &[role="column1"]
@@ -157,31 +157,31 @@
 
                 p
                 label
-                    margin: 0 0 0.5em
+                    margin 0 0 0.5em
 
                 input
                 select
                 button
                 strong
-                    background: $grey-01
-                    border-radius: 2px
-                    padding: 0.5em 1em
-                    color: $grey-08
-                    margin: 0 0 0.5em
+                    background $grey-01
+                    border-radius 2px
+                    padding 0.5em 1em
+                    color $grey-08
+                    margin 0 0 0.5em
 
                 input
                 select
                 button
-                    border: solid 1px $grey-03
-                    width: 17.5em
+                    border solid 1px $grey-03
+                    width 17.5em
 
                 strong
-                    width: 9em
-                    display: block
-                    margin-top: 0.5em
+                    width 9em
+                    display block
+                    margin-top 0.5em
 
                     &:empty
-                        display: none
+                        display none
 
                 h3
                 p
@@ -189,28 +189,30 @@
                 select
                 label
                 strong
-                    color: $grey-08
+                    color $grey-08
 
                 h3
-                    margin: 0 0 0.5em
+                    margin 0 0 0.5em
 
                 label
-                    display: block
+                    display block
 
                 .small-button
-                    background: none
-                    border: none
+                    background none
+                    border none
+                    padding 0
+                    margin 0
 
-                    text-align: left
-                    font-size: 0.9em
-                    color: $grey-04
+                    text-decoration none
+                    text-align left
+                    font-size 0.9em
+                    color $grey-04
 
-                    height: 2em
-                    padding: 0
-                    margin: 0
+                    height 2em
+                    line-height 2em
 
                     &:hover
-                        color: $blue
+                        color $blue
 
                 .button
                 button
@@ -219,10 +221,10 @@
 
                     &.submit
                         color white
-                        background-color: $blue
+                        background-color $blue
 
                     &.danger
-                        color: $red
+                        color $red
                         background-color $red-alpha
                         border solid 1px $red-alpha
 
