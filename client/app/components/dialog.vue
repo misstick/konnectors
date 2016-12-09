@@ -176,7 +176,6 @@
                     width 17.5em
 
                 strong
-                    width 9em
                     display block
                     margin-top 0.5em
 
@@ -227,6 +226,10 @@
                         color $red
                         background-color $red-alpha
                         border solid 1px $red-alpha
+
+                    &[disabled="true"]
+                    &[disabled="disabled"]
+                        background-color $blue-alpha
 
 
 </style>

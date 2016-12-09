@@ -24,13 +24,9 @@
                 return this.item.params.event
             },
 
-            folderPath () {
-                return this.item.params.account.folderPath
-            },
-
             description () {
                 if ('account.add.success' === this.eventName) {
-                    return `Retrouvez vos données dans l'application Files à l'emplacement : ${this.folderPath}`
+                    return `Retrouvez vos données dans l'application Files à l'emplacement : ${this.item.params.account.folderPath}`
                 }
             },
 

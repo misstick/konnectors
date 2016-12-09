@@ -12,7 +12,7 @@
             button(class='small-button',
                     id='add-button',
                     v-on:click="save",
-                    v-if="$parent.item.accounts.length < 4")
+                    v-if="enableAccountCreation")
               | {{ 'add an account' | t }}
 
 
@@ -20,8 +20,8 @@
           .field
               h3 Activité
 
-              p(v-if="lastImport")
-                  | Dernière synchronisation: {{ lastImport }}
+              p(v-if="lastImport") Dernière synchronisation:&nbsp;
+                  span(id="lastImport") {{ lastImport }}
 
               button(class="small-button", v-if="!isImporting")
                   | synchroniser maintenant
@@ -43,12 +43,16 @@
                 | Ouvrir le dossier dans files
 
           .field
-              h3: label(for="syncFrequency") Fréquence de synchronisation
+              h3
+                  label(for="syncFrequency")
+                      | Fréquence de synchronisation
 
               p
-                  label(for="syncFrequency")
+                  label(for="importInterval")
                     | Vos fichiers seront ajoutés dans votre Cozy au rythme suivant :
-                  select(name="syncFrequency", id="syncFrequency")
+                  select(name="importInterval", id="importInterval", :value="this.importInterval")
+                      option(v-for="interval, slug in intervals", :value="slug")
+                          | {{ interval | t }}
 
 
           .field
@@ -81,7 +85,7 @@
 
         fieldset(role='footer')
             button(id='reset-button', v-on:click="close") Annuler
-            button(id='save-button', v-on:click="save", class="submit") Sauvegarder
+            button(id='save-button', v-on:click="save", class="submit", :disabled="!enableAccountCreation") Sauvegarder
 
 </template>
 
@@ -136,6 +140,28 @@
           lastImport () {
               return this.$parent.item.lastImport
           },
+
+
+          importInterval() {
+              return this.$parent.item.importInterval
+          },
+
+
+          enableAccountCreation () {
+              return this.$parent.item.accounts.length < 4
+          },
+
+
+          intervals () {
+              return {
+                  none: 'none',
+                  hour: 'every hour',
+                  day: 'every day',
+                  week: 'every week',
+                  month: 'each month'
+              }
+          },
+
 
           fields () {
               const result = []
@@ -271,21 +297,26 @@
                       errors.push(data[2])
                 })
 
+                // Get other fields
+                result['importInterval'] = document.getElementById('importInterval').value
+
+                let el = document.getElementById('lastImport')
+                result['lastImport'] = el ? el.textContent : new Date()
+
                 // Update account if no errors
                 // and display success notification
                 if (!errors.length) {
-                    // Reset form to add
-                    // another account
-                    console.log(this.account)
-                    this.account = {}
-
                     // Add account to globals
                     this.$parent.item.accounts.push(result)
 
                     emit('success', this.slug, {
                         event: 'account.add.success',
-                        account: this.account
+                        account: result
                     })
+
+                    // Reset form to add
+                    // another account
+                    this.account = {}
                 }
 
                 // otherwise emit event
