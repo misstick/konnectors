@@ -171,10 +171,16 @@
               })
               this.onOpenNotif('success', id, data)
 
-              // Goto NextComponent
               const dialog = this.getDialog(id)
               if (dialog.routes && dialog.routes.success) {
+                  // Goto NextComponent
                   this.$root.$router.push(dialog.routes.success)
+
+              } else {
+                  // Otherwise remove dialog
+                  const dialog = this.dialogs.find(item => item.id === id)
+                  const index = this.dialogs.indexOf(dialog)
+                  if (-1 < index) this.dialogs.splice(index, 1)
               }
           },
 

@@ -281,15 +281,13 @@
             },
 
             save () {
-                // Save Account
-                // and update VueData
-                const values = this.getFieldValues()
                 const emit = (...args) => {
                     this.$parent.hub.$emit.call(this.$parent, ...args)
                 }
 
                 const result = {}
                 const errors = []
+                const values = this.getFieldValues()
                 values.forEach((data) => {
                     if (!data[2])
                       result[data[0]] = data[1]
