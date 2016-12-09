@@ -67,8 +67,8 @@
 
 
         fieldset(role='footer')
-            button(id='reset-button') Annuler
-            button(id='save-button', class="submit") Sauvegarder
+            button(id='reset-button', v-on:click="close") Annuler
+            button(id='save-button', v-on:click="save", class="submit") Sauvegarder
 
 </template>
 
@@ -259,7 +259,11 @@
 
                     emit('error', this.slug, result)
                 }
+            },
 
+            close () {
+                const path = this.$parent.closeURL
+                this.$root.$router.push({ path })
             }
         }
     }
