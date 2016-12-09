@@ -5,20 +5,26 @@
             p(class='description')
               | {{ description | t }}
 
-            strong(v-if="account")
-              | {{ account.login }}
+            ul
+              li(v-for="account in $parent.item.accounts")
+                strong {{ account.login }}
 
             button(class='small-button',
                     id='add-button',
-                    v-on:click="save")
+                    v-on:click="save",
+                    v-if="$parent.item.accounts.length < 4")
               | {{ 'add an account' | t }}
 
 
         fieldset(role="column2")
           .field
               h3 Activité
-              p Dernière synchronisation : span: en cours...
-              button(class="small-button") synchroniser maintenant
+
+              p Dernière synchronisation:&nbsp;
+                  span en cours...
+
+              button(class="small-button")
+                  | synchroniser maintenant
 
 
           .field
@@ -28,7 +34,8 @@
                   label(:for="field.name") Vous trouverez vos fichiers
 
                   select(:name="field.name", :id="field.name", :type="field.type",
-                  v-on:change="onSelectChange")
+                  v-on:change="onSelectChange",
+                  :selected="account[field.name]")
                       option(v-for="path in paths", :value="path.id")
                         | {{ path.path }}
 
@@ -49,12 +56,18 @@
 
               p(v-for="field in fields", v-if="field.type === 'email'")
                   label(:for="field.name") {{ field.label }}
-                  input(type="text", :name="field.name", :id="field.name",
+                  input(type="text",
+                          :name="field.name",
+                          :id="field.name",
+                          :value="account[field.name]",
                           placeholder="michelle@mail.fr")
 
               p(v-for="field in fields", v-if="field.type === 'password'")
                   label(:for="field.name") {{ field.label }}
-                  input(type="password", :name="field.name", :id="field.name")
+                  input(type="password",
+                          :name="field.name",
+                          :id="field.name",
+                          :value="account[field.name]")
 
 
           .field
@@ -74,7 +87,6 @@
 
 
 <script>
-
     const _ = require('lodash')
 
     // TODO: faire fonctionner le connecteur
@@ -88,30 +100,33 @@
             }
         },
 
+
         created () {
-            // Select default directory
-            if (!this.account["folder"]) {
-                const value = this.paths.find(path => path.path === this.defaultFolder)
-
-                // Update Folder
-                this.account["folder"] = value.path
-
-                // Update Folder URI
-                this.setFolderURI(value.path)
-            }
+            this.selectDefaultFolder()
         },
+
+
+        updated () {
+            this.selectDefaultFolder()
+        },
+
+
         computed: {
+
           id () {
               return `konnector-${this.$parent.item.slug}`
           },
+
 
           slug () {
               return this.$parent.item.slug
           },
 
+
           description () {
               return this.$parent.item.description
           },
+
 
           fields () {
               const result = []
@@ -129,9 +144,11 @@
               return result
           },
 
+
           defaultFolder () {
               return `/Administration/${this.$parent.item.slug}`
           },
+
 
           paths () {
               let isDefault = false
@@ -160,6 +177,18 @@
 
 
         methods: {
+            selectDefaultFolder () {
+                if (!this.account["folder"]) {
+                    const value = this.paths.find(path => path.path === this.defaultFolder)
+
+                    // Update Folder
+                    this.account["folder"] = value.path
+
+                    // Update Folder URI
+                    this.setFolderURI(value.path)
+                }
+            },
+
             onSelectChange ({ currentTarget }) {
                 const value = currentTarget.value
                 const type = currentTarget.getAttribute('type')
@@ -236,7 +265,13 @@
                 // Update account if no errors
                 // and display success notification
                 if (!errors.length) {
-                    this.account = result
+                    // Reset form to add
+                    // another account
+                    console.log(this.account)
+                    this.account = {}
+
+                    // Add account to globals
+                    this.$parent.item.accounts.push(result)
 
                     emit('success', this.slug, {
                         event: 'account.add.success',

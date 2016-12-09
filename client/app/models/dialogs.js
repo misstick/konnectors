@@ -15,10 +15,7 @@ export default window.initKonnectors.map((konnector) => {
   return {
     id: konnector.slug,
 
-    // TODO: generate backgrounds images
-    // form mockups
     headerStyles: {
-        //'background-image': `url('/img/${konnector.slug}.jpg')`,
         'background': konnector.color.css
     },
 
@@ -34,7 +31,7 @@ export default window.initKonnectors.map((konnector) => {
     routes: konnector.routes || null,
 
     // Display Notifications when Success or Errors.
-    // ie.
+    // see Konnector.notifications for more details
     notifications: notifs,
 
     hub: new Vue()
