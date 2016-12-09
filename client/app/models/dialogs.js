@@ -19,7 +19,7 @@ export default window.initKonnectors.map((konnector) => {
         'background': konnector.color.css
     },
 
-    component: require(`../components/konnectors/${konnector.slug}.vue`),
+    component: require('../components/konnector.vue'),
 
     // TODO: faire un model spécifique pour les vues
     // et pas récupérer tout le connector
