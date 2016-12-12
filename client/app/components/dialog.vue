@@ -108,10 +108,13 @@
             overflow initial
             flex-direction column
 
+            main
+                padding 1.5em 2em
+
             header
                 border-radius 0.52083em 0.52083em 0 0
                 margin -1px -1px 2px
-                height 7.5em
+                height 5.5em
 
                 display flex
                 align-items center
@@ -120,7 +123,7 @@
 
                 svg
                     margin 0 auto
-                    max-height 4em
+                    max-height 3em
 
 
                 [role='close']
