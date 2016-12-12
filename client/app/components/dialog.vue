@@ -101,15 +101,12 @@
 
         .wrapper
             min-height 100vh
-            padding 3em 1em
+            padding 1em
             box-sizing border-box
 
         [role=contentinfo]
             overflow initial
             flex-direction column
-
-            main
-                padding 1.5em 2em
 
             header
                 border-radius 0.52083em 0.52083em 0 0
@@ -140,7 +137,7 @@
             flex-flow row wrap
 
             .field
-                margin 0 0 2em
+                margin 0 0 1em
 
             fieldset
                 border 0
