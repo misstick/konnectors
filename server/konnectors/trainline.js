@@ -21,12 +21,17 @@ const logger = require('printit')({
 
 module.exports = baseKonnector.createNew({
   name: 'Trainline (Captain Train)',
+  slug: 'trainline',
   vendorLink: 'www.captaintrain.com',
 
   category: 'transport',
   color: {
     hex: '#48D5B5',
     css: '#48D5B5',
+  },
+
+  notifications: {
+    'account.add.success': 'Bienvenue chez Trainline!',
   },
 
   fields: {

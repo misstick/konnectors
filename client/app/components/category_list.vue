@@ -1,5 +1,22 @@
 <template lang="pug">
-    main(role='contentinfo')
+    extends ../templates/layout.pug
+
+    block content
         h1 {{ 'my_accounts category title' | t }}
-        article {{ 'my_accounts coming_soon' | t }}
+
+        ul(class="list-item"): list-item(v-for="item in items",
+          :item="item",
+          :categories="categories")
 </template>
+
+<script>
+    import ListItem from './list_item'
+
+    export default {
+      props: ['items', 'categories'],
+
+      components: {
+          'list-item': ListItem
+      }
+    }
+</script>

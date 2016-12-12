@@ -53,4 +53,3 @@ class LocalizationManager
 
 
 module.exports = new LocalizationManager()
-
