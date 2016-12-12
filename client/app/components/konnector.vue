@@ -40,7 +40,7 @@
                         | {{ path.path }}
 
               a(:href="folderURI", class="button small-button")
-                | Ouvrir le dossier dans files
+                  | Ouvrir le dossier dans files
 
           .field
               h3
@@ -58,7 +58,7 @@
           .field
               h3 Compte
 
-              p(v-for="field in fields", v-if="field.type === 'email'")
+              p(v-for="field in fields", v-if="field.type === 'text'")
                   label(:for="field.name") {{ field.label }}
                   input(type="text",
                           :name="field.name",
