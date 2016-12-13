@@ -18,13 +18,13 @@ html(lang=locale)
   meta(name="theme-color", content="#ffffff")
 
   link(rel="stylesheet" href="/fonts/fonts.css")
-  link(rel="stylesheet" href=`app${hash}.css`)
+  link(rel="stylesheet" href="app" + hash + ".css")
 
   if imports
     script.
       window.initKonnectors = !{JSON.stringify(imports.konnectors)}
       window.initFolders = !{JSON.stringify(imports.folders)}
       window.context = '!{imports.context}'
-  script(src=`app${hash}.js` defer=true)
+  script(src="app" + hash + ".js" defer=true)
 
   div(role="application")

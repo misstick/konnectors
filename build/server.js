@@ -28,9 +28,9 @@ params = {
 
 application = module.exports = function(callback) {
   return americano.start(params, function(err, app, server) {
-    var realtime;
+    var error, hash, realtime;
     realtime = RealtimeAdapter(server, ['konnector.update', 'folder.*']);
-    return localization.initialize(function() {
+    localization.initialize(function() {
       return initKonnectors(function() {
         poller.start();
         log.info('Import poller started.');
@@ -39,6 +39,12 @@ application = module.exports = function(callback) {
         }
       });
     });
+    try {
+      hash = "." + (require('./assets').hash);
+    } catch (error) {
+      hash = '';
+    }
+    return app.locals.hash = hash;
   });
 };
 

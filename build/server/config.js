@@ -11,7 +11,7 @@ config = {
   common: {
     set: {
       'view engine': getTemplateExt(),
-      'views': path.resolve(__dirname, '../client')
+      'views': path.resolve(__dirname, 'views')
     },
     engine: {
       js: function(path, locales, callback) {

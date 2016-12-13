@@ -7,7 +7,7 @@
   "license": "AGPL-3.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/cozy-labs/konnectors.git"
+    "url": "https://github.com/misstick/konnectors.git"
   },
   "main": "/build/server.js",
   "dependencies": {
@@ -65,7 +65,9 @@
     "mockery": "2.0.0"
   },
   "scripts": {
-    "build": "sh scripts/build.sh",
+    "build": "npm-run-all build:*",
+    "build:server": "sh scripts/build_server.sh",
+    "build:client": "sh scripts/build_client.sh",
     "test": "sh scripts/lint.sh && npm-run-all test:*",
     "test:server": "sh scripts/tests.sh",
     "test:client": "mocha --require babel-register client/test/**/*.js",

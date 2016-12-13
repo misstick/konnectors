@@ -31,6 +31,11 @@ module.exports = {
   slug: "sosh",
   description: 'konnector description sosh',
   vendorLink: "https://www.sosh.fr/",
+  category: 'telecom',
+  color: {
+    hex: '#03A0AA',
+    css: '#03A0AA'
+  },
   fields: {
     login: "text",
     password: "password",
@@ -90,28 +95,27 @@ logIn = function(requiredFields, billInfos, data, next) {
   log.info('Get login form');
   return request(logInOptions, function(err, res, body) {
     if (err) {
-      next(err);
+      log.info(err);
+      return next('request error');
     }
     log.info('Logging in');
     return request(signInOptions, function(err, res, body) {
       if (err) {
         log.error('Login failed');
-        return log.raw(err);
-      } else {
-        log.info('Login succeeded');
-        log.info('Fetch bill info');
-        return request(billOptions, function(err, res, body) {
-          if (err) {
-            log.error('An error occured while fetching bills');
-            console.log(err);
-            return next(err);
-          } else {
-            log.info('Fetch bill info succeeded');
-            data.html = body;
-            return next();
-          }
-        });
+        log.raw(err);
+        return next('bad credentials');
       }
+      log.info('Fetch bill info');
+      return request(billOptions, function(err, res, body) {
+        if (err) {
+          log.error('An error occured while fetching bills');
+          console.log(err);
+          return next('request error');
+        }
+        log.info('Fetch bill info succeeded');
+        data.html = body;
+        return next();
+      });
     });
   });
 };

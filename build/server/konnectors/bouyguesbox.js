@@ -46,6 +46,11 @@ module.exports = {
   slug: "bouyguesbox",
   description: 'konnector description bouygues box',
   vendorLink: "https://www.bouyguestelecom.fr/",
+  category: 'isp',
+  color: {
+    hex: '#009DCC',
+    css: '#009DCC'
+  },
   fields: {
     email: "text",
     password: "password",
@@ -106,7 +111,9 @@ logIn = function(requiredFields, bills, data, next) {
   return request(loginOptions, function(err, res, body) {
     var $, execution, form, lt;
     if (err) {
-      return next(err);
+      log.info('Login infos could not be fetched');
+      log.info(err);
+      return next('bad credentials');
     }
     $ = cheerio.load(body);
     lt = $('input[name="lt"]').val();
@@ -130,7 +137,8 @@ logIn = function(requiredFields, bills, data, next) {
     return request(loginOptions, function(err, res, body) {
       var options;
       if (err) {
-        return next(err);
+        log.info(err);
+        return next('bad credentials');
       }
       options = {
         method: 'GET',
@@ -140,9 +148,11 @@ logIn = function(requiredFields, bills, data, next) {
           'User-Agent': userAgent
         }
       };
+      log.info('Fetching the bills…');
       return request(options, function(err, res, body) {
         if (err) {
-          return next(err);
+          log.info(err);
+          return next('request error');
         }
         data.html = body;
         return next();

@@ -19,6 +19,12 @@ var Event = require('../models/event');
 var connector = module.exports = baseKonnector.createNew({
   name: 'Birthdays',
 
+  category: 'social',
+  color: {
+    hex: '#FF5D47',
+    css: '#FF5D47'
+  },
+
   fields: {
     tag: 'text',
     calendar: 'text'

@@ -47,6 +47,11 @@ module.exports = {
   slug: "github",
   description: 'konnector description github',
   vendorLink: "https://www.github.com/",
+  category: 'others',
+  color: {
+    hex: '#161615',
+    css: '#161615'
+  },
   fields: {
     login: "text",
     password: "password",
@@ -114,7 +119,8 @@ logIn = function(requiredFields, billInfos, data, next) {
   return request(logInOptions, function(err, res, body) {
     var $, inputs, token;
     if (err) {
-      next(err);
+      log.error(err);
+      return next('bad credentials');
     }
     $ = cheerio.load(body);
     inputs = $('#login input');
@@ -123,15 +129,18 @@ logIn = function(requiredFields, billInfos, data, next) {
     } else {
       token = '';
     }
+    if (!token) {
+      return next('token not found');
+    }
     signInOptions.form.authenticity_token = token;
     return request(signInOptions, function(err, res, body) {
       return request(billOptions, function(err, res, body) {
         if (err) {
-          return next(err);
-        } else {
-          data.html = body;
-          return next();
+          log.error(err);
+          next('request error');
         }
+        data.html = body;
+        return next();
       });
     });
   });

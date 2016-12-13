@@ -7,11 +7,11 @@ path = require('path');
 
 module.exports = function() {
   var ext, filePath;
-  filePath = path.resolve(__dirname, "../../client/index.js");
+  filePath = path.resolve(__dirname, '..', 'views', 'index.js');
   if (fs.existsSync(filePath)) {
     ext = 'js';
   } else {
-    ext = 'jade';
+    ext = 'pug';
   }
   return ext;
 };

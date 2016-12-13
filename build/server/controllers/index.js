@@ -15,14 +15,18 @@ module.exports.main = function(req, res) {
     instance: CozyInstance.first,
     folders: Folder.all
   }, function(err, results) {
-    var folders, instance, konnectors, locale;
+    var folders, instance, konnectors;
     if (err != null) {
       console.log(err);
     }
     konnectors = results.konnectors, instance = results.instance, folders = results.folders;
-    locale = (instance != null ? instance.locale : void 0) || 'en';
     return res.render('index', {
-      imports: "window.locale = \"" + locale + "\";\nwindow.initKonnectors = " + (JSON.stringify(konnectors)) + ";\nwindow.initFolders = " + (JSON.stringify(folders)) + ";"
+      locale: (instance != null ? instance.locale : void 0) || 'en',
+      imports: {
+        konnectors: konnectors,
+        folders: folders,
+        context: 'cozy'
+      }
     });
   });
 };

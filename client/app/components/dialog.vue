@@ -137,7 +137,7 @@
             flex-flow row wrap
 
             .field
-                margin 0 0 1em
+                margin 0 0 0.6em
 
             fieldset
                 border 0
@@ -191,7 +191,7 @@
                     color $grey-08
 
                 h3
-                    margin 0 0 0.5em
+                    margin 0 0 0.3em
 
                 label
                     display block

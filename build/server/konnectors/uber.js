@@ -25,6 +25,12 @@ var fileOptions = {
 
 module.exports = baseKonnector.createNew({
   name: 'Uber',
+  vendorLink: 'https://uber.com',
+  category: 'transport',
+  color: {
+    hex: '#000203',
+    css: '#000203'
+  },
   fields: {
     login: 'text',
     password: 'password',
