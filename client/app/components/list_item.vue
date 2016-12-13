@@ -21,7 +21,8 @@
 
       computed: {
           figureStyles () {
-              return `background: ${this.item.color.css}`
+              const color = (this.item.color || {}).css || 'white'
+              return `background: ${color}`
           },
 
           iconPath () {

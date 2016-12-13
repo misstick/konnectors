@@ -115,10 +115,9 @@
               if (typeof dialogs === 'string')
                   // Check if query have a configuration
                   // if none do not it save into dialogs
-                  var config = this.config
-                  this.dialogs = dialogs.split(',').map(function(id) {
+                  this.dialogs = dialogs.split(',').map((id) => {
                       return this.config.find(item => item.id === id)
-                  }).filter((item) { return !!item })
+                  }).filter(item => !!item)
               else
                   this.dialogs = []
           },
@@ -155,7 +154,7 @@
           getNotificationMessage (id, keys=[], params=[]) {
               const notifs = this.getDialog(id).notifications
 
-              return keys.map(function (key, index) {
+              return keys.map((key, index) => {
                   const values = (params[index] || []).join(', ')
                   return notifs[key].replace('${values}', values)
               }).join(' \n')
@@ -210,15 +209,15 @@
               // Auto-close notifications
               // after n times displayed
               if ("error" !== type) {
-                  setTimeout(function(){
+                  setTimeout(() => {
                       const index = this.notifications.indexOf(notif)
                       if (-1 !== index) this.notifications.splice(index, 1)
-                  }.bind(this), NOTIFICATIONS_CLOSE_DELAY)
+                  }, NOTIFICATIONS_CLOSE_DELAY)
               }
           },
 
           onCloseNotif (id) {
-              this.notifications = this.notifications.filter(function(notif) {
+              this.notifications = this.notifications.filter((notif) => {
                   return notif.dialog !== id
               })
           }

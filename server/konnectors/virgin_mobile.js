@@ -105,9 +105,15 @@ function buildNotifContent(requiredFields, entries, data, next) {
 }
 
 module.exports = factory.createNew({
-  name: 'virginmobile',
+  name: 'Virgin mobile',
   description: 'konnector description virginmobile',
   vendorLink: 'https://www.virginmobile.fr/',
+
+  category: 'telecom',
+  color: {
+    hex: '#D72938',
+    css: '#D72938',
+  },
 
   fields: {
     login: 'text',

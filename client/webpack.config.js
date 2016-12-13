@@ -1,17 +1,17 @@
 'use strict'
 
-var path = require('path')
-var fs   = require('fs')
+const path = require('path')
+const fs   = require('fs')
 
-var webpack = require('webpack')
+const webpack = require('webpack')
 
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
-var CopyPlugin        = require('copy-webpack-plugin')
-var BrowserSyncPlugin = require('browser-sync-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const CopyPlugin        = require('copy-webpack-plugin')
+const BrowserSyncPlugin = require('browser-sync-webpack-plugin')
 
 
 // use the `OPTIMIZE` env to switch from dev to production build
-var optimize = process.env.OPTIMIZE === 'true'
+const optimize = process.env.OPTIMIZE === 'true'
 
 
 /**
@@ -22,8 +22,8 @@ var optimize = process.env.OPTIMIZE === 'true'
  * customized via PostCSS
  * - images are cache-busted in production build
  */
-var cssOptions = optimize? 'css?-svgo&-autoprefixer&-mergeRules':'css'
-var imgPath = 'img/' + '[name]' + (optimize? '.[hash]': '') + '.[ext]'
+const cssOptions = optimize? 'css?-svgo&-autoprefixer&-mergeRules':'css'
+const imgPath = 'img/' + '[name]' + (optimize? '.[hash]': '') + '.[ext]'
 
 let loaders = [
     {

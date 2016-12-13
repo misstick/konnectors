@@ -187,10 +187,9 @@
 
           paths () {
               let isDefault = false
-              var defaultFolder = this.defaultFolder
-              let result = (window.initFolders || []).map(function(model) {
+              let result = (window.initFolders || []).map((model) => {
                   if (!isDefault)
-                      isDefault = model.path === defaultFolder
+                      isDefault = model.path === this.defaultFolder
 
                   return Object.assign(model, {
                       path: `${model.path}/${model.name}`,
@@ -248,7 +247,7 @@
             getFieldValues () {
                 let result
 
-                const plop = this.fields.map(function(field) {
+                const plop = this.fields.map((field) => {
                   const el = document.getElementById(field.name)
                   let value
                   let err
@@ -282,14 +281,14 @@
             },
 
             save () {
-                const emit = function() {
-                    this.$parent.hub.$emit.apply(this.$parent, arguments)
+                const emit = (...args) => {
+                    this.$parent.hub.$emit.call(this.$parent, ...args)
                 }
 
                 const result = {}
                 const errors = []
                 const values = this.getFieldValues()
-                values.forEach(function (data) {
+                values.forEach((data) => {
                     if (!data[2])
                       result[data[0]] = data[1]
                     else
@@ -323,7 +322,7 @@
                 else {
                     const result = {}
                     const prefix = 'account.add.error'
-                    _.transform(errors, function(result, err) {
+                    _.transform(errors, (result, err) => {
                         const type = `${prefix}.${err[0]}`
                         const value = err[1]
 

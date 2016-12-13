@@ -40,6 +40,11 @@ module.exports =
     description: 'konnector description github'
     vendorLink: "https://www.github.com/"
 
+    category: 'others'
+    color:
+        hex: '#161615'
+        css: '#161615'
+
     fields:
         login: "text"
         password: "password"
@@ -105,21 +110,29 @@ logIn = (requiredFields, billInfos, data, next) ->
         url: "https://github.com/settings/billing"
 
     request logInOptions, (err, res, body) ->
-        if err then next err
+        if err
+            log.error err
+            return next 'bad credentials'
         $ = cheerio.load body
         inputs = $('#login input')
         if inputs.length > 2
             token = $(inputs[1]).val()
         else
             token = ''
+
+        if not token
+            return next 'token not found'
+
         signInOptions.form.authenticity_token = token
 
         request signInOptions, (err, res, body) ->
             request billOptions, (err, res, body) ->
-                if err then next err
-                else
-                    data.html = body
-                    next()
+                if err
+                    log.error err
+                    next 'request error'
+
+                data.html = body
+                next()
 
 
 # Parse the fetched page to extract bill data.

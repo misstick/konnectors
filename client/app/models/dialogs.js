@@ -8,7 +8,7 @@ const NOTIFICATIONS = {
   'account.add.error.empty': 'Vous devez renseigner ces champs pour valider votre compte : ${values}.'
 }
 
-export default window.initKonnectors.map(function(konnector) {
+export default window.initKonnectors.map((konnector) => {
 
   const notifs = Object.assign({}, NOTIFICATIONS, konnector.notifications || {})
 
@@ -16,7 +16,7 @@ export default window.initKonnectors.map(function(konnector) {
     id: konnector.slug,
 
     headerStyles: {
-        'background': konnector.color.css
+        'background': (konnector.color || {}).css || 'white'
     },
 
     component: require('../components/konnector.vue'),

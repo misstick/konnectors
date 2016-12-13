@@ -15,7 +15,12 @@ service doctolib.fr */
 
 const connector = module.exports = baseKonnector.createNew({
   name: 'Doctolib',
-
+  vendorLink: 'www.doctolib.fr/',
+  category: 'health',
+  color: {
+    hex: '#0596DE',
+    css: '#0596DE',
+  },
   fields: {
     login: 'text',
     password: 'password',
