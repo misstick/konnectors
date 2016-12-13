@@ -36,6 +36,12 @@ var alreadyExists = 0;
 var connector = module.exports = baseKonnector.createNew({
   name: 'Podcast',
 
+  category: 'others',
+  color: {
+    hex: '#40DE8E',
+    css: '#40DE8E'
+  },
+
   models: [Track],
 
   fields: {

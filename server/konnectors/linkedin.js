@@ -412,6 +412,13 @@ module.exports = {
   name: 'Linkedin',
   slug: 'linkedin',
   description: 'konnector description linkedin',
+  vendorLink: 'www.linkedin.com',
+
+  category: 'social',
+  color: {
+    hex: '#0077B5',
+    css: '#0077B5',
+  },
 
   fields: {
     login: 'text',

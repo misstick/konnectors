@@ -48,6 +48,11 @@ module.exports = {
   slug: "bouyguestelecom",
   description: 'konnector description bouygues',
   vendorLink: "https://www.bouyguestelecom.fr/",
+  category: 'telecom',
+  color: {
+    hex: '#009DCC',
+    css: '#009DCC'
+  },
   fields: {
     phoneNumber: "text",
     password: "password",
@@ -110,7 +115,9 @@ logIn = function(requiredFields, bills, data, next) {
   return request(loginOptions, function(err, res, body) {
     var $, execution, form, lt;
     if (err) {
-      return next(err);
+      log.info('Login infos could not be fetched');
+      log.info(err);
+      return next('bad credentials');
     }
     $ = cheerio.load(body);
     lt = $('input[name="lt"]').val();
@@ -135,7 +142,8 @@ logIn = function(requiredFields, bills, data, next) {
     return request(loginOptions, function(err, res, body) {
       var options;
       if (err) {
-        return next(err);
+        log.info(err);
+        return next('bad credentials');
       }
       log.info('Download bill HTML page...');
       options = {
@@ -148,7 +156,8 @@ logIn = function(requiredFields, bills, data, next) {
       };
       return request(options, function(err, res, body) {
         if (err) {
-          return next(err);
+          log.info(err);
+          return next('request error');
         }
         data.html = body;
         log.info('Bill page downloaded.');

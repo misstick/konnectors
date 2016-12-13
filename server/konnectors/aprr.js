@@ -21,7 +21,7 @@ const filterExisting = require('../lib/filter_existing');
 const localization = require('../lib/localization_manager');
 const saveDataAndFile = require('../lib/save_data_and_file');
 const linkBankOperation = require('../lib/link_bank_operation');
-
+const Bill = require('../models/bill');
 const log = require('printit')({
   prefix: 'APRR',
   date: true,
@@ -32,14 +32,17 @@ const fileOptions = {
   dateFormat: 'YYYYMMDD',
 };
 
-const Bill = require('../models/bill');
-
 const baseUrl = 'https://espaceclient.aprr.fr/aprr/Pages';
 
 // Konnector
 const connector = module.exports = baseKonnector.createNew({
   name: 'APRR',
   vendorLink: baseUrl,
+  category: 'transport',
+  color: {
+    hex: '#FF0000',
+    css: '#FF0000',
+  },
   fields: {
     login: 'text',
     password: 'password',
@@ -219,14 +222,12 @@ function parsePage(requiredFields, bills, data, next) {
 }
 
 function customFilterExisting(requiredFields, bills, data, next) {
-  filterExisting(log, Bill)(requiredFields, bills, data, next);
-  return next();
+  return filterExisting(log, Bill)(requiredFields, bills, data, next);
 }
 
 function customSaveDataAndFile(requiredFields, bills, data, next) {
   const fnsave = saveDataAndFile(log, Bill, fileOptions, ['peage', 'facture']);
-  fnsave(requiredFields, bills, data, next);
-  return next();
+  return fnsave(requiredFields, bills, data, next);
 }
 
 function buildNotifContent(requiredFields, bills, data, next) {

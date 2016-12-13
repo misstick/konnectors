@@ -18,11 +18,15 @@ module.exports = {
    * level.
    */
   createNew: function (konnector) {
-    var slug = slugify(konnector.name).replace(/(-|\.)/g, '_');
+    var slug = slugify(konnector.slug || konnector.name);
+    slug = slug.replace(/(-|\.)/g, '_');
+
     var logger = printit({
       prefix: konnector.name,
       date: true
     });
+
+    var docTypeVersion = `konnectors_${slug}-0.7.2`;
     var modelsObj = {}
     konnector.models.forEach((model) => {
       modelsObj[model.displayName.toLowerCase()] = model
@@ -32,6 +36,7 @@ module.exports = {
       slug: slug,
       description: `konnector description ${slug}`,
       logger: logger,
+      docTypeVersion: docTypeVersion,
       models: modelsObj,
 
       fetch: function (requiredFields, callback) {
@@ -55,4 +60,3 @@ module.exports = {
   }
 
 }
-

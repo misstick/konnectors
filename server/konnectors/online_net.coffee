@@ -28,8 +28,13 @@ module.exports =
     description: 'konnector description online_net'
     vendorLink: "https://www.online.net/"
 
+    category: 'host_provider'
+    color:
+        hex: '#E92F7C'
+        css: '#E92F7C'
+
     fields:
-        username: "text"
+        login: "text"
         password: "password"
         folderPath: "folder"
     models:
@@ -74,7 +79,7 @@ module.exports =
 logIn = (requiredFields, bills, data, next) ->
 
     formUrl = 'https://console.online.net/en/login?o=1'
-    loginUrl = 'https://console.online.net/login_check'
+    loginUrl = 'https://console.online.net/en/login_check'
     billUrl = "https://console.online.net/en/bill/list"
     userAgent = 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:36.0) ' + \
                 'Gecko/20100101 Firefox/36.0'
@@ -89,17 +94,22 @@ logIn = (requiredFields, bills, data, next) ->
 
     log.info 'Logging in on Online.net...'
     request loginOptions, (err, res, body) ->
-        return next err if err
+        if err
+            log.error err
+            return next 'request error'
 
         # Extract hidden values
         $ = cheerio.load body
         crsfToken = $('input[name="_csrf_token"]').val()
 
+        if not crsfToken
+            return next 'token not found'
+
         # Second request to log in (post the form).
         form =
             "_target_path": "https://console.online.net/en/account/home"
             "_submit": "Sign+in"
-            "_username": requiredFields.username
+            "_username": requiredFields.login
             "_password": requiredFields.password
             "_csrf_token": crsfToken
 
@@ -113,7 +123,9 @@ logIn = (requiredFields, bills, data, next) ->
                 'User-Agent': userAgent
 
         request loginOptions, (err, res, body) ->
-            return next err if err
+            if err
+                log.error err
+                return next 'bad credentials'
 
             log.info 'Download bill HTML page...'
 
@@ -125,7 +137,10 @@ logIn = (requiredFields, bills, data, next) ->
                     'User-Agent': userAgent
 
             request options, (err, res, body) ->
-                return next err if err
+                if err
+                    log.error err
+                    return next 'request error'
+
                 data.html = body
                 log.info 'Bill page downloaded.'
                 next()
