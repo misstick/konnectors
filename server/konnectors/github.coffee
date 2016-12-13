@@ -40,19 +40,10 @@ module.exports =
     description: 'konnector description github'
     vendorLink: "https://www.github.com/"
 
-    category: 'others'
-    color:
-        hex: '#161615'
-        css: '#161615'
-
     fields:
-        login:
-            type: "text"
-        password:
-            type: "password"
-        folderPath:
-            type: "folder"
-            advanced: true
+        login: "text"
+        password: "password"
+        folderPath: "folder"
     models:
         codebill: CodeBill
 
@@ -114,29 +105,21 @@ logIn = (requiredFields, billInfos, data, next) ->
         url: "https://github.com/settings/billing"
 
     request logInOptions, (err, res, body) ->
-        if err
-            log.error err
-            return next 'bad credentials'
+        if err then next err
         $ = cheerio.load body
         inputs = $('#login input')
         if inputs.length > 2
             token = $(inputs[1]).val()
         else
             token = ''
-
-        if not token
-            return next 'token not found'
-
         signInOptions.form.authenticity_token = token
 
         request signInOptions, (err, res, body) ->
             request billOptions, (err, res, body) ->
-                if err
-                    log.error err
-                    next 'request error'
-
-                data.html = body
-                next()
+                if err then next err
+                else
+                    data.html = body
+                    next()
 
 
 # Parse the fetched page to extract bill data.

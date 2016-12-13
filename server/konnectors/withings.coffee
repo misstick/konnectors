@@ -72,18 +72,11 @@ module.exports =
     name: "Withings"
     slug: "withings"
     description: 'konnector description withings'
-    vendorLink: "www.withings.com/"
-
-    category: 'health'
-    color:
-        hex: '#0D9EE3'
-        css: '#0D9EE3'
+    vendorLink: "https://www.withings.com/"
 
     fields:
-        email:
-            type: "text"
-        password:
-            type: "password"
+        email: "text"
+        password: "password"
     models:
         scalemeasure: Weight
         heartbeat: HeartBeat

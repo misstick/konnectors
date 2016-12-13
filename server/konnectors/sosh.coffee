@@ -29,19 +29,10 @@ module.exports =
     description: 'konnector description sosh'
     vendorLink: "https://www.sosh.fr/"
 
-    category: 'telecom'
-    color:
-        hex: '#03A0AA'
-        css: '#03A0AA'
-
     fields:
-        login:
-            type: "text"
-        password:
-            type: "password"
-        folderPath:
-            type: "folder"
-            advanced: true
+        login: "text"
+        password: "password"
+        folderPath: "folder"
     models:
         bill: Bill
 
@@ -104,9 +95,7 @@ logIn = (requiredFields, billInfos, data, next) ->
     log.info 'Get login form'
     # Get cookies from login page.
     request logInOptions, (err, res, body) ->
-        if err
-            log.info err
-            return next 'request error'
+        if err then next err
 
         # Log in sosh.fr
         log.info 'Logging in'
@@ -114,19 +103,20 @@ logIn = (requiredFields, billInfos, data, next) ->
             if err
                 log.error 'Login failed'
                 log.raw err
-                return next 'bad credentials'
+            else
+                log.info 'Login succeeded'
 
-            # Download bill information page.
-            log.info 'Fetch bill info'
-            request billOptions, (err, res, body) ->
-                if err
-                    log.error 'An error occured while fetching bills'
-                    console.log err
-                    return next 'request error'
-
-                log.info 'Fetch bill info succeeded'
-                data.html = body
-                next()
+                # Download bill information page.
+                log.info 'Fetch bill info'
+                request billOptions, (err, res, body) ->
+                    if err
+                        log.error 'An error occured while fetching bills'
+                        console.log err
+                        next err
+                    else
+                        log.info 'Fetch bill info succeeded'
+                        data.html = body
+                        next()
 
 
 # Layer to parse the fetched page to extract bill data.

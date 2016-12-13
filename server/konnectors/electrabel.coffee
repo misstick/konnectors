@@ -31,19 +31,10 @@ module.exports =
     description: 'konnector description electrabel'
     vendorLink: "https://www.electrabel.be/"
 
-    category: 'energy'
-    color:
-        hex: '#0054A5'
-        css: '#0054A5'
-
     fields:
-        login:
-            type: "text"
-        password:
-            type: "password"
-        folderPath:
-            type: "folder"
-            advanced: true
+        login: "text"
+        password: "password"
+        folderPath: "folder"
     models:
         bill: Bill
 

@@ -19,12 +19,10 @@ module.exports.main = (req, res) ->
         console.log err if err?
 
         {konnectors, instance, folders} = results
+        locale = instance?.locale or 'en'
+        res.render 'index', imports: """
+            window.locale = "#{locale}";
+            window.initKonnectors = #{JSON.stringify konnectors};
+            window.initFolders = #{JSON.stringify folders};
+        """
 
-        res.render 'index',
-            locale: instance?.locale or 'en'
-            imports:
-                konnectors: konnectors
-                folders: folders
-                # Should be override to load a specific context in client app.
-                # Defaults to `cozy`
-                context: 'cozy'

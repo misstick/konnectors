@@ -28,16 +28,9 @@ module.exports =
     description: 'konnector description github commits'
     vendorLink: "https://www.github.com/"
 
-    category: 'productivity'
-    color:
-        hex: '#161615'
-        css: '#161615'
-
     fields:
-        login:
-            type: "text"
-        password:
-            type: "password"
+        login: "text"
+        password: "password"
     models:
         commit: Commit
 
@@ -103,7 +96,7 @@ buildCommitDateHash = (requiredFields, entries, data, next) ->
     Commit.all (err, commits) ->
         if err
             log.error err
-            next 'request error'
+            next err
         else
             for commit in commits
                 entries.commitHash[commit.sha] = true
@@ -140,11 +133,10 @@ logCommits = (requiredFields, entries, data, next) ->
                         log.info "Commit #{commit.sha} not saved: no metadata."
                     callback()
 
-                else if commit.author.login.toLowerCase() isnt
-                username.toLowerCase()
+                else if commit.author.login isnt username
                     log.info "Commit #{commit.sha} not saved: " + \
                              "user is not author (#{commit.author.login})."
-                    callback('parsing error')
+                    callback()
 
                 else
                     log.info "Saving commit #{commit.sha}..."

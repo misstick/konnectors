@@ -51,16 +51,9 @@ module.exports =
     description: 'konnector description nest'
     vendorLink: "https://nest.com/"
 
-    category: 'energy'
-    color:
-        hex: '#8C979B'
-        css: '#8C979B'
-
     fields:
-        email:
-            type: "text"
-        password:
-            type: "password"
+        email: "text"
+        password: "password"
     models:
         nestTemperature: Temperature
 
@@ -84,3 +77,4 @@ module.exports =
 
                 notifContent = null
                 callback err, notifContent
+

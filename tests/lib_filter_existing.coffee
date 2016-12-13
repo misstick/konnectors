@@ -50,7 +50,7 @@ describe 'Filter Existing Layer', ->
         map = (doc) ->
             emit doc.date, doc
             return
-        Bill.defineRequest 'byDate', map, ->
+        Bill.defineRequest 'bydate', map, ->
             Bill.requestDestroy 'byDate', ->
                 loadFixtures done
 
@@ -74,3 +74,4 @@ describe 'Filter Existing Layer', ->
            should.exist entries.filtered
            entries.filtered.length.should.equal 2
            done()
+

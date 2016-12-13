@@ -7,7 +7,7 @@ baseKonnector = require '../lib/base_konnector'
 Bill = require '../models/bill'
 
 module.exports =
-    createNew: (ovhApi, name, slug, vendorLink, category, color) ->
+    createNew: (ovhApi, name, slug) ->
 
         fileOptions =
             vendor: slug
@@ -24,19 +24,11 @@ module.exports =
 
         return connector = baseKonnector.createNew
             name: name
-            vendorLink: vendorLink
-
-            category: category
-            color: color
 
             fields:
-                loginUrl:
-                    type: "text"
-                token:
-                    type: "hidden"
-                folderPath:
-                    type: "folder"
-                    advanced: true
+                loginUrl: "link"
+                token: "hidden"
+                folderPath: "folder"
 
             models: [Bill],
 

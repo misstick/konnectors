@@ -17,7 +17,6 @@ program
     .option('-d, --delete <docType>', 'Delete documents for given model.')
     .option('-c, --columns <columns>', 'Set column names for data table.')
     .option('-w, --widths <widths>', 'Set widths for data table columns.')
-    .option('-l, --list', 'List the slugs of all available konnectors')
     .parse(process.argv)
 
 
@@ -88,13 +87,6 @@ else if program.show or program.delete
         data.show opts, ->
             log.lineBreak()
 
-else if program.list
-    opts =
-        modelName: 'konnector'
-        columns: 'slug,vendor'
-        widths: '20,20'
-    data.show opts, ->
-        log.lineBreak()
 
 else
     program.outputHelp()

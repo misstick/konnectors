@@ -7,7 +7,7 @@ config =
     common:
         set:
             'view engine': getTemplateExt()
-            'views': path.resolve __dirname, 'views'
+            'views': path.resolve __dirname, '../client'
 
         engine:
             js: (path, locales, callback) ->

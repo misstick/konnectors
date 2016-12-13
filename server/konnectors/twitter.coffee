@@ -34,20 +34,11 @@ module.exports =
     description: 'konnector description twitter'
     vendorLink: "https://twitter.com/"
 
-    category: 'social'
-    color:
-        hex: '#54ACEE'
-        css: '#54ACEE'
-
     fields:
-        consumerKey:
-            type: "text"
-        consumerSecret:
-            type: "password"
-        accessToken:
-            type: "text"
-        accessTokenSecret:
-            type: "password"
+        consumerKey: "text"
+        consumerSecret: "password"
+        accessToken: "text"
+        accessTokenSecret: "password"
     models:
         tweets: TwitterTweet
     modelNames: ["TwitterTweet"]

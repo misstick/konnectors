@@ -61,3 +61,4 @@ describe 'File model', ->
                 should.not.exist err
                 isPresent.should.equal false
                 done()
+

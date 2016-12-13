@@ -31,11 +31,6 @@ module.exports =
     description: 'konnector description googlecontacts'
     vendorLink: "https://www.google.com/contacts/"
 
-    category: 'social'
-    color:
-        hex: '#0D7DC0'
-        css: '#0D7DC0'
-
     customView: """
     <h6><%t konnector customview googlecontacts 4 %></h6>
     <p><%t konnector customview googlecontacts 1 %></p>
@@ -43,9 +38,9 @@ module.exports =
     title="<%t konnector customview googlecontacts 2 %>" class="btn"
        onclick="window.open('#{GoogleToken.getAuthUrl()}',
        'Google OAuth',
-       'toolbars=0,width=700,height=600,\
-       left=200,top=200,scrollbars=1,resizable=1');
-       var input = $('#googlecontacts-authCode0-input');
+       'toolbars=0,
+       width=700,height=600,left=200,top=200,scrollbars=1,resizable=1');
+       var input = $('#googlecontacts-authCode-input');
        input.parents('.field').toggleClass('hidden');
        input.attr('type', 'text');
        input.val('');
@@ -55,14 +50,10 @@ module.exports =
     <p><%t konnector customview googlecontacts 3 %></p>
     """
     fields:
-        authCode:
-            type: "hidden"
-        accountName:
-            type: "text"
-        accessToken:
-            type: "hidden"
-        refreshToken:
-            type: "hidden"
+        authCode: "hidden"
+        accountName: "label"
+        accessToken: "hidden"
+        refreshToken: "hidden"
 
     models:
         contact: Contact
@@ -119,9 +110,7 @@ callback) ->
 
     if requiredFields.refreshToken? and requiredFields.authCode is 'connected'
         GoogleToken.refreshToken requiredFields.refreshToken, (err, tokens) ->
-            if err
-                log.info err
-                return callback 'token not found'
+            return callback err if err
             requiredFields.accessToken = tokens.access_token
 
             callback()
@@ -129,9 +118,7 @@ callback) ->
     else
         GoogleToken.generateRequestToken(
             requiredFields.authCode, (err, tokens) ->
-                if err
-                    log.info err
-                    return callback 'token not found'
+                return callback err if err
 
                 requiredFields.accessToken = tokens.access_token
                 requiredFields.refreshToken = tokens.refresh_token
@@ -153,10 +140,7 @@ fetchAccountName = (requiredFields, entries, data, callback) ->
 
     GoogleContactHelper.fetchAccountName requiredFields.accessToken
     , (err, accountName) ->
-        if err
-            log.info err
-            return callback 'request error'
-
+        return callback err if err
         requiredFields.accountName = accountName
         callback()
 
@@ -167,10 +151,7 @@ saveTokensInKonnector = (requiredFields, entries, data, callback) ->
 
     Konnector = require '../models/konnector'
     Konnector.all (err, konnectors) ->
-        if err
-            log.info err
-            return callback 'request error'
-
+        return callback err if err
         konnector = konnectors.filter((k) -> k.slug is'googlecontacts')[0]
 
         accounts = [
@@ -203,14 +184,11 @@ fetchGoogleChanges = (requiredFields, entries, data, callback) ->
             'Authorization': 'Bearer ' + requiredFields.accessToken
             'GData-Version': '3.0'
     , (err, res, body) ->
-        if err
-            log.info err
-            return callback 'request error'
-
+        return callback err if err
         if body.error
             log.info "Error while fetching google changes : "
             log.info body
-            return callback 'request error'
+            return callback body
 
         entries.googleChanges = body.feed?.entry or []
 
@@ -234,10 +212,7 @@ updateCozyContacts = (requiredFields, entries, data, callback) ->
             GoogleContactHelper.updateCozyContact gEntry, entries
             , requiredFields.accountName, requiredFields.accessToken, cb
     , (err, updated) ->
-        if err
-            log.info err
-            return callback 'request error'
-
+        return callback err if err
         if updated.some((contact) -> contact?)
             # Contact created or linked, with google tag, getOrCreate it
             Tag.getOrCreate { name: 'google', color: '#4285F4'}, callback
@@ -280,13 +255,9 @@ fetchAllGoogleContacts = (requiredFields, entries, data, callback) ->
             'Authorization': 'Bearer ' + requiredFields.accessToken
             'GData-Version': '3.0'
     , (err, res, body) ->
-        if err
-            log.info err
-            return callback 'request error'
-
+        return callback err if err
         if body.error?
-            log.info body.error
-            return callback 'request error'
+            return callback new Error body.error
 
         entries.googleContacts = body.feed?.entry or []
         entries.googleContactsById = {}
@@ -301,10 +272,7 @@ fetchAllGoogleContacts = (requiredFields, entries, data, callback) ->
 prepareCozyContacts = (requiredFields, entries, data, callback) ->
     log.debug 'prepareCozyContacts'
     Contact.all (err, contacts) ->
-        if err
-            log.info err
-            return callback 'request error'
-
+        return callback err if err
         entries.cozyContacts = contacts
         # Create a set
         entries.ofAccount = []
@@ -373,10 +341,7 @@ updateGoogleContact = (requiredFields, contact, gEntry, callback) ->
                 'GData-Version': '3.0'
                 'If-Match': '*'
         , (err, res, body) ->
-            if err
-                log.info err
-                return callback 'request error'
-
+            return callback err if err
             log.debug  body
             if body.error?
                 log.warn 'Error while uploading contact to google'
@@ -407,8 +372,5 @@ deleteInGoogle = (requiredFields, gId, callback) ->
             'If-Match': '*'
 
     , (err, res, body) ->
-        if err
-            log.info err
-            return callback 'request error'
+        callback err
 
-        callback()

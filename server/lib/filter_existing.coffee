@@ -48,3 +48,4 @@ module.exports = (log, model, suffix, vendor) ->
             entries.filtered = entries.filtered.filter (entry) ->
                 entry.vendor is vendor
             next()
+

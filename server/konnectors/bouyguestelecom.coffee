@@ -40,19 +40,10 @@ module.exports =
     description: 'konnector description bouygues'
     vendorLink: "https://www.bouyguestelecom.fr/"
 
-    category: 'telecom'
-    color:
-        hex: '#009DCC'
-        css: '#009DCC'
-
     fields:
-        phoneNumber:
-            type: "text"
-        password:
-            type: "password"
-        folderPath:
-            type: "folder"
-            advanced: true
+        phoneNumber: "text"
+        password: "password"
+        folderPath: "folder"
     models:
         phonebill: PhoneBill
 
@@ -110,10 +101,7 @@ logIn = (requiredFields, bills, data, next) ->
 
     log.info 'Logging in on Bouygues Website...'
     request loginOptions, (err, res, body) ->
-        if err
-            log.info 'Login infos could not be fetched'
-            log.info err
-            return next 'bad credentials'
+        return next err if err
 
         # Extract hidden values
         $ = cheerio.load body
@@ -138,9 +126,7 @@ logIn = (requiredFields, bills, data, next) ->
 
         log.info 'Successfully logged in.'
         request loginOptions, (err, res, body) ->
-            if err
-                log.info err
-                return next 'bad credentials'
+            return next err if err
 
             log.info 'Download bill HTML page...'
             # Third request to build the links of the bills
@@ -151,10 +137,7 @@ logIn = (requiredFields, bills, data, next) ->
                 headers:
                     'User-Agent': userAgent
             request options, (err, res, body) ->
-                if err
-                    log.info err
-                    return next 'request error'
-
+                return next err if err
                 data.html = body
                 log.info 'Bill page downloaded.'
                 next()
@@ -203,3 +186,4 @@ parsePage = (requiredFields, bills, data, next) ->
 
     log.info 'Bill data parsed.'
     next()
+

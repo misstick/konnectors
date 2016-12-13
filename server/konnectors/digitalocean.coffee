@@ -29,19 +29,10 @@ module.exports =
     description: 'konnector description digital ocean'
     vendorLink: "https://www.digitalocean.com/"
 
-    category: 'host_provider'
-    color:
-        hex: '#0069FF'
-        css: '#0069FF'
-
     fields:
-        login:
-            type: "text"
-        password:
-            type: "password"
-        folderPath:
-            type: "folder"
-            advanced: true
+        login: "text"
+        password: "password"
+        folderPath: "folder"
     models:
         bill: Bill
 
@@ -103,38 +94,31 @@ logIn = (requiredFields, billInfos, data, next) ->
 
     # Get authenticity token from login form.
     request logInOptions, (err, res, body) ->
-        token = ""
-        if err
-            log.info err
-        else
-            $ = cheerio.load body
-            token = $("input[name=authenticity_token]").val()
-
-        if not token
-            return next 'token not found'
+        if err then next err
+        $ = cheerio.load body
+        token = $("input[name=authenticity_token]").val()
 
         # Log in digitalocean.com
         signInOptions.form.authenticity_token = token
         log.info 'Logging in'
         request signInOptions, (err, res, body) ->
             if err
+                log.error 'Login failed'
                 log.raw err
-                log.info 'Login failed'
-                return next 'bad credentials'
+            else
+                log.info 'Login succeeded'
 
-            log.info 'Login succeeded'
-
-            # Download bill information page.
-            log.info 'Fetch bill info'
-            request billOptions, (err, res, body) ->
-                if err
-                    log.error 'An error occured while fetching bills'
-                    console.log err
-                    return next 'import server error'
-
-                log.info 'Fetch bill info succeeded'
-                data.html = body
-                next()
+                # Download bill information page.
+                log.info 'Fetch bill info'
+                request billOptions, (err, res, body) ->
+                    if err
+                        log.error 'An error occured while fetching bills'
+                        console.log err
+                        next err
+                    else
+                        log.info 'Fetch bill info succeeded'
+                        data.html = body
+                        next()
 
 
 # Layer to parse the fetched page to extract bill data.

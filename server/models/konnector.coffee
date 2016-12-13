@@ -1,7 +1,6 @@
 cozydb = require 'cozydb'
 async = require 'async'
 konnectorHash = require '../lib/konnector_hash'
-appConfig = require '../config/appConfig'
 
 log = require('printit')
     prefix: null
@@ -71,7 +70,7 @@ Konnector::injectEncryptedFields = ->
 Konnector::removeEncryptedFields = (fields) ->
 
     if not fields?
-        log.warn "Fields variable undefined, use current one instead."
+        log.warn "Fields variable undefined, use curren one instead."
         fields = @getFields()
 
     @cleanFieldValues()
@@ -212,7 +211,6 @@ Konnector.getKonnectorsToDisplay = (callback) ->
                         return konnectorHash[konnector.slug]?
                     .map (konnector) ->
                         konnector.appendConfigData()
-                        konnector.checkProperties()
                         return konnector
 
                 callback null, konnectorsToDisplay
@@ -236,26 +234,3 @@ Konnector::cleanFieldValues = ->
         password = JSON.parse @password
         @password = JSON.stringify [password]
 
-
-# Authorized Categories for konnectors
-Konnector::checkProperties = ->
-    # check if category is correctly defined
-    # if not -> fallback to default
-    if not @category or typeof @category isnt 'string'
-        @category = 'others'
-    else
-        if not (@category in appConfig.authorizedCategories)
-            @category = 'others'
-
-    # check if color is correctly defined
-    # if not -> fallback to default
-    if not @color
-        @color = {
-            hex: '#A7B5C6'
-            css: '#A7B5C6'
-        }
-    else
-        if not @color.hex
-            @color.hex = '#A7B5C6'
-        if not @color.css
-            @color.css = '#A7B5C6'

@@ -52,19 +52,10 @@ module.exports =
     description: 'konnector description free mobile'
     vendorLink: "https://mobile.free.fr/"
 
-    category: 'telecom'
-    color:
-        hex: '#CD1E25'
-        css: '#CD1E25'
-
     fields:
-        login:
-            type: "text"
-        password:
-            type: "password"
-        folderPath:
-            type: "folder"
-            advanced: true
+        login: "text"
+        password: "password"
+        folderPath: "folder"
     models:
         phonebill: PhoneBill
 

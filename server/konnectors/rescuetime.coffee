@@ -35,14 +35,8 @@ module.exports =
     description: 'konnector description rescuetime'
     vendorLink: "https://www.rescuetime.com/"
 
-    category: 'productivity'
-    color:
-        hex: '#C23C2F'
-        css: '#C23C2F'
-
     fields:
-        apikey:
-            type: "text"
+        apikey: "text"
     models:
         activities: RescueTimeActivity
 
@@ -94,18 +88,16 @@ module.exports =
 
         client.get path, (err, res, body) ->
             if err
-                log.error err
-                callback 'bad credentials'
+                callback err
             else if res.statusCode isnt 200
-                log.error body
-                callback 'request error'
+                callback new Error body
             else if body.error?
                 log.error body.error
-                log.debug body.messages
-                callback 'request error'
+                callback body.messages
             else if not body.rows?
-                log.error 'Something went wrong while fetching rescue time data'
-                callback 'request error'
+                callback new Error """
+Something went wrong while fetching rescue time data.
+"""
             else
                 async.eachSeries body.rows, (row, cb) ->
                     data =
@@ -119,7 +111,7 @@ module.exports =
                         log.debug 'new activity imported'
                         log.debug JSON.stringify data
 
-                        cb()
+                        cb err
                 , (err) ->
 
                     notifContent = null

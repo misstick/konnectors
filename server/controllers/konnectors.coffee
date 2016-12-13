@@ -19,8 +19,6 @@ module.exports =
             else
                 konnector.injectEncryptedFields()
 
-                konnector.checkProperties()
-
                 # Add customView field
                 konnectorModule = require "../konnectors/#{konnector.slug}"
 

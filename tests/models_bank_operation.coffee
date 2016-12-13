@@ -39,3 +39,4 @@ describe 'Bank Operation model', ->
                     operation.binary.fileName.should.equal file.name
                     operation.binary.fileMime.should.equal file.mime
                     done()
+
